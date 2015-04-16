@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SmartRSS</string>
+    <string name="activity_round">Round</string>
+    <string name="activity_square">Square</string>
+</resources>
