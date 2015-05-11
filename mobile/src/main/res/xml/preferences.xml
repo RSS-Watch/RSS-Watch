@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+    <EditTextPreference android:key="preference_account"
+                        android:title="@string/preferences_account_title"
+                        android:summary="@string/preferences_account_summary"/>
+    <ListPreference android:key="preference_reading_speed"
+                    android:title="@string/preferences_reading_speed_title"
+                    android:summary="@string/preferences_reading_speed_summary"
+                    android:entries="@array/preferencesReadingSpeedArray"
+                    android:entryValues="@array/preferencesReadingSpeedValues"
+                    android:defaultValue="1"/>
+</PreferenceScreen>

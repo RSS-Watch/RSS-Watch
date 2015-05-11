@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/RSS-Watch.iml" filepath="$PROJECT_DIR$/RSS-Watch.iml" />
       <module fileurl="file://$PROJECT_DIR$/SmartRSS.iml" filepath="$PROJECT_DIR$/SmartRSS.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rss watch.iml" filepath="$PROJECT_DIR$/rss watch.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
     </modules>
   </component>
