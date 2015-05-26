@@ -1,6 +1,16 @@
+#intellij
+.idea/workspace.xml
+.idea/workspace*.xml
+.idea/tasks.xml
+.idea/libraries
+.idea/dictionaries
+*.iws
+
+# Mac
+.DS_Store
+
+# Gradle
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
 /build
+/bin/
