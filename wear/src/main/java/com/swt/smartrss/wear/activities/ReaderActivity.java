@@ -6,7 +6,6 @@ import android.support.wearable.view.WatchViewStub;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.swt.smartrss.wear.R;
@@ -22,7 +21,7 @@ public class ReaderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
         final LayoutInflater inflater = getLayoutInflater();
-        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub_reader);
+        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
 
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
