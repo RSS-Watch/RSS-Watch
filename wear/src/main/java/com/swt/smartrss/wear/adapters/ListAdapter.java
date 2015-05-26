@@ -1,4 +1,4 @@
-package com.swt.smartrss.wear;
+package com.swt.smartrss.wear.adapters;
 
 import android.content.Context;
 import android.support.wearable.view.WearableListView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.swt.smartrss.wear.R;
 
 /**
  * Created by Florian on 19.05.2015.

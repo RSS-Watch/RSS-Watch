@@ -10,9 +10,13 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.DeviceDefault" >
         <activity
-            android:name="com.swt.smartrss.wear.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
 
+        </activity>
+        <activity
+            android:name=".activities.ReaderActivity"
+            android:label="@string/title_activity_reader" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

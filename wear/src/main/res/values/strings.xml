@@ -2,4 +2,7 @@
     <string name="app_name">SmartRSS</string>
     <string name="activity_round">Round</string>
     <string name="activity_square">Square</string>
+    <string name="title_activity_reader">ReaderActivity</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
 </resources>

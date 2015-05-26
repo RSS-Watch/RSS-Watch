@@ -6,8 +6,8 @@
         android:id="@+id/watch_view_stub_reader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:rectLayout="@layout/rect_activity_main"
-        app:roundLayout="@layout/round_activity_main"
-        tools:context=".MainActivity"
+        app:rectLayout="@layout/rect_activity_reader"
+        app:roundLayout="@layout/round_activity_reader"
+        tools:context="com.swt.smartrss.wear.activities.ReaderActivity"
         tools:deviceIds="wear">
 </android.support.wearable.view.WatchViewStub>

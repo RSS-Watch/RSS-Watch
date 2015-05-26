@@ -1,10 +1,11 @@
-package com.swt.smartrss.wear;
+package com.swt.smartrss.wear.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.widget.TextView;
+import com.swt.smartrss.wear.adapters.ListAdapter;
+import com.swt.smartrss.wear.R;
 
 public class MainActivity extends Activity implements WearableListView.ClickListener {
 
