@@ -9,6 +9,9 @@ buildscript {
 apply plugin: 'com.android.application'
 
 repositories {
+    maven {
+        url "https://jitpack.io"
+    }
     jcenter()
 }
 
@@ -38,4 +41,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.github.RSS-Watch:Feedly-API-Client:0.1.1'
 }
