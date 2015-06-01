@@ -3,10 +3,10 @@
                   android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
-    <EditTextPreference android:key="preference_account"
+    <EditTextPreference android:key="@string/preference_edit_account"
                         android:title="@string/preferences_account_title"
                         android:summary="@string/preferences_account_summary"/>
-    <ListPreference android:key="preference_reading_speed"
+    <ListPreference android:key="@string/preference_list_speed"
                     android:title="@string/preferences_reading_speed_title"
                     android:summary="@string/preferences_reading_speed_summary"
                     android:entries="@array/preferencesReadingSpeedArray"

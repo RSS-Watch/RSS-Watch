@@ -10,4 +10,7 @@
 
     <string name="preferences_reading_speed_title">Reading speed</string>
     <string name="preferences_reading_speed_summary">Words per minute</string>
+
+    <string name="preference_edit_account">preference_account</string>
+    <string name="preference_list_speed">preference_reading_speed</string>
 </resources>
