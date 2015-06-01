@@ -3,17 +3,22 @@ package com.swt.smartrss.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+import com.swt.smartrss.app.helper.StateManager;
 
 
 public class MainActivity extends Activity {
-
+    private String accountName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
+        accountName = stateManager.getAndroidPreferences().getAccountName();
+        Toast.makeText(getApplication(), accountName, Toast.LENGTH_SHORT).show();
     }
 
 
