@@ -4,13 +4,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="com.swt.smartrss.wear.activities.SpritzerActivity"
-                tools:deviceIds="wear_round">
+                tools:deviceIds="wear_round"
+                android:id="@+id/relativeLO">
 
-    <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
+    <com.swt.smartrss.wear.spritz.SpritzerTextView
+            android:id="@+id/spritzTV"
+            android:layout_margin="10dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/hello_round"/>
+            android:textSize="26sp"/>
+
 </RelativeLayout>

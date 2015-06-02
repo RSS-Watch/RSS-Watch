@@ -16,20 +16,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:id="@+id/layout29" android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true">
-
-            <com.swt.smartrss.wear.spritz.SpritzerTextView
-                    android:id="@+id/spritzTV"
-                    android:layout_margin="10dp"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="26sp"/>
-
             <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
                           android:layout_height="fill_parent">
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:text="Scrollen" android:id="@+id/button4" android:layout_gravity="center_horizontal"/>
                 <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="New Button" android:id="@+id/button5" android:layout_gravity="center_horizontal"/>
+                        android:text="Spritz Test!" android:id="@+id/spritz_test" android:layout_gravity="center_horizontal"/>
                 <Switch android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:text="New Switch" android:id="@+id/switch2" android:layout_gravity="center_horizontal"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
