@@ -1,8 +1,8 @@
 package com.swt.smartrss.wear.activities;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.view.LayoutInflater;
@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.swt.smartrss.wear.R;
-import com.swt.smartrss.wear.spritz.SpritzerTextView;
 
 public class ReaderActivity extends Activity {
+    public final static String TEXT = "com.swt.smartrss.wear.activities.TEXT";
+    public final static String WPM = "com.swt.smartrss.wear.activities.WPM";
 
     private TextView mTextView;
     private Button mButton;
@@ -56,7 +57,7 @@ public class ReaderActivity extends Activity {
             @Override
             public void onLayoutInflated(WatchViewStub watchViewStub) {
 
-                Button spritzerButton = (Button) stub.findViewById(R.id.spritzerButton);
+                Button spritzerButton = (Button) stub.findViewById(R.id.spritz_test);
 
                 spritzerButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -69,24 +70,12 @@ public class ReaderActivity extends Activity {
     }
 
     protected void spritzerTest(Context context) {
+        String text = "This is just a test and an example text to test the spitz textview with the spritz text split function";
+        int wpm = 300;
 
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.spritz_test);
-        dialog.setTitle("Spritz-Test");
-
-        SpritzerTextView text = (SpritzerTextView) dialog.findViewById(R.id.spritzTV);
-        text.setSpritzText("This is just a test and an example text to test the spitz textview with the spritz text split");
-        text.setWpm(250);
-        text.play();
-
-        Button dialogButton = (Button) dialog.findViewById(R.id.buttonClose);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+        Intent intent = new Intent(this, SpritzerActivity.class);
+        intent.putExtra(TEXT, text);
+        intent.putExtra(WPM, wpm);
+        startActivity(intent);
     }
 }
