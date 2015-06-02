@@ -12,7 +12,7 @@ public class MainActivity extends Activity implements WearableListView.ClickList
 
     private TextView mTextView;
     private WearableListView listView;
-    private String testStrings[] = {"Affe","Banane","Chameleon","Drogen","Was passiert eigentlich, wenn ich hier einen längeren String eintrage?"};
+    private String testStrings[] = {"Affe","Banane","Chameleon","Drogen","Was passiert eigentlich, wenn ich hier einen laengeren String eintrage?"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
