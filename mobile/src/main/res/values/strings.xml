@@ -15,4 +15,5 @@
     <string name="preference_list_speed">preference_reading_speed</string>
     <string name="preferences_token_title">Feedly Token</string>
     <string name="preference_edit_token">preference_token</string>
+    <string name="title_activity_reader">ReaderActivity</string>
 </resources>
