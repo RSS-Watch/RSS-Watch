@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.swt.smartrss.app.GlobalApplication;
 import com.swt.smartrss.app.R;
+import com.swt.smartrss.app.helper.ArticleData;
 import com.swt.smartrss.app.helper.StateManager;
 import com.swt.smartrss.app.adapters.ListAdapter;
 import org.feedlyapi.FeedManager;
@@ -40,8 +41,10 @@ public class MainActivity extends Activity {
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
-        final ArrayList<Article> list = new ArrayList<Article>();
-        list.add(new Article());
+        final ArrayList<ArticleData> list = new ArrayList<ArticleData>();
+        ArticleData loadingDummy = new ArticleData();
+        loadingDummy.setTitle("loading");
+        list.add(loadingDummy);
 
         final ListAdapter adapter = new ListAdapter(this,android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
@@ -50,12 +53,9 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ReaderActivity.class);
-                Article current = adapter.getItem(position);
+                ArticleData current = adapter.getItem(position);
                 i.putExtra("title", adapter.getItem(position).getTitle());
-                if(current.getContent() != null && !current.getContent().isEmpty())
-                    i.putExtra("text",adapter.getItem(position).getContent());
-                else
-                    i.putExtra("text",adapter.getItem(position).getSummary());
+                i.putExtra("text",adapter.getItem(position).getText());
                 startActivity(i);
             }
         });
@@ -66,7 +66,9 @@ public class MainActivity extends Activity {
             public void success(Stream stream, Response response) {
                 List<Article> articles = stream.getItems();
                 list.clear();
-                list.addAll(articles);
+                for(Article a : articles) {
+                    list.add(new ArticleData(a));
+                }
                 adapter.notifyDataSetChanged();
             }
 

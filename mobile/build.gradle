@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.1.1'
@@ -9,9 +10,7 @@ buildscript {
 apply plugin: 'com.android.application'
 
 repositories {
-    /*maven {
-        url "https://jitpack.io"
-    }*/
+    mavenCentral()
     jcenter()
 }
 
@@ -41,5 +40,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'org.jsoup:jsoup:1.6.1'
     /*compile 'com.github.RSS-Watch:Feedly-API-Client:0.1.1'*/
 }

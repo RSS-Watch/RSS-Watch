@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.swt.smartrss.app.R;
+import com.swt.smartrss.app.helper.ArticleData;
 import org.feedlyapi.model.Article;
 
 import java.util.ArrayList;
@@ -14,18 +15,18 @@ import java.util.ArrayList;
 /**
  * Created by Florian on 05.06.2015.
  */
-public class ListAdapter extends ArrayAdapter<Article> {
+public class ListAdapter extends ArrayAdapter<ArticleData> {
     private Context context;
-    private ArrayList<Article> values;
+    private ArrayList<ArticleData> values;
 
-    public ListAdapter(Context context, int layout, ArrayList<Article> values) {
+    public ListAdapter(Context context, int layout, ArrayList<ArticleData> values) {
         super(context, layout, values);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //Get the data of the current item
-        Article a = getItem(position);
+        ArticleData a = getItem(position);
 
 
         if (convertView == null) {
