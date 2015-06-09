@@ -66,23 +66,6 @@ public class SpritzerActivity extends Activity {
                         }
                     });
                 }
-
-                relativeLO = (RelativeLayout) stub.findViewById(R.id.relativeLO);
-                if (relativeLO != null) {
-                    relativeLO.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View view, MotionEvent motionEvent) {
-                            if (isPlaying) {
-                                spritzTV.pause();
-                                isPlaying = false;
-                            } else {
-                                spritzTV.play();
-                                isPlaying = true;
-                            }
-                            return false;
-                        }
-                    });
-                }
             }
         });
     }
