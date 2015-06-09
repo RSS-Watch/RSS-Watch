@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.TextView;
 import com.swt.smartrss.app.R;
 
@@ -15,14 +16,19 @@ public class ReaderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
         TextView textViewTitle = (TextView)findViewById(R.id.textViewTitle);
-        TextView textViewText = (TextView) findViewById(R.id.textViewText);
+        //TextView textViewText = (TextView) findViewById(R.id.textViewText);
+
+        WebView webView = (WebView) findViewById(R.id.webView);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
 
         Intent i = getIntent();
         String title = i.getStringExtra("title");
         String text = i.getStringExtra("text");
 
         textViewTitle.setText(title);
-        textViewText.setText(text);
+        //textViewText.setText(text);
+        webView.loadDataWithBaseURL("",text,"text/html","UTF-8","");
     }
 
 
