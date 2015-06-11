@@ -1,14 +1,17 @@
 package com.swt.smartrss.app.adapters;
 
+import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 import com.swt.smartrss.app.R;
 import com.swt.smartrss.app.helper.ArticleData;
-import org.feedlyapi.model.Article;
+import com.swt.smartrss.app.helper.DpPixelConverter;
 
 import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
 
     public ListAdapter(Context context, int layout, ArrayList<ArticleData> values) {
         super(context, layout, values);
+        this.context = context;
     }
 
     @Override
@@ -34,9 +38,16 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_entry, parent, false);
         }
 
-        TextView tv = (TextView) convertView.findViewById(R.id.textView);
+        TextView tvTitle = (TextView) convertView.findViewById(R.id.textViewTitle);
+        TextView tvInfo = (TextView) convertView.findViewById(R.id.textViewInfo);
+        ImageView ivThumb = (ImageView) convertView.findViewById(R.id.imageView);
 
-        tv.setText(a.getTitle());
+        tvTitle.setText(a.getTitle());
+        tvInfo.setText(a.getPublished().getTime().toString());
+        if(a.getPictureUrl() != "" && a.getPictureUrl() != null) {
+            Picasso.with(context).load(a.getPictureUrl()).placeholder(android.R.drawable.ic_input_add)
+                    .error(android.R.drawable.ic_delete).resize((int)DpPixelConverter.convertDpToPixel(78,context),(int)DpPixelConverter.convertDpToPixel(60,context)).into(ivThumb);
+        }
 
         return convertView;
     }

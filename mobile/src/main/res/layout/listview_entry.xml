@@ -2,17 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="80dp">
+              android:layout_height="70dp">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="62dp"
-            android:text="Dies ist ein längerer Text über das Ende hinaus"
-            android:textSize="16sp"
-            android:id="@+id/textView"
-            android:layout_gravity="left|center_vertical"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textAlignment="center"
-            android:gravity="center_vertical"/>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@mipmap/ic_launcher"
+                android:paddingRight="5dp"
+                android:layout_centerVertical="true"/>
+        <TextView
+                android:layout_toRightOf="@id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hier steht der Titel des Artikels"
+                android:textSize="16sp"
+                android:id="@+id/textViewTitle"
+                android:layout_gravity="left|center_vertical"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textAlignment="center"/>
+        <TextView
+                android:layout_toRightOf="@id/imageView"
+                android:layout_below="@id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hier stehen die relevanten Informationen"
+                android:textSize="12sp"
+                android:id="@+id/textViewInfo"
+                android:layout_gravity="left"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"/>
+    </RelativeLayout>
 </LinearLayout>

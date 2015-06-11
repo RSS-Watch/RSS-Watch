@@ -64,4 +64,12 @@ public class ArticleData {
     public void setText(String text) {
         this.text = text;
     }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
 }
