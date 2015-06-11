@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.squareup.picasso.Picasso;
 import com.swt.smartrss.app.R;
 import com.swt.smartrss.app.helper.ArticleData;
 import com.swt.smartrss.app.helper.DpPixelConverter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Florian on 05.06.2015.
@@ -39,15 +41,18 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
         }
 
         TextView tvTitle = (TextView) convertView.findViewById(R.id.textViewTitle);
-        TextView tvInfo = (TextView) convertView.findViewById(R.id.textViewInfo);
+        //TextView tvInfo = (TextView) convertView.findViewById(R.id.textViewInfo);
         ImageView ivThumb = (ImageView) convertView.findViewById(R.id.imageView);
 
         tvTitle.setText(a.getTitle());
-        tvInfo.setText(a.getPublished().getTime().toString());
+        //tvInfo.setText(a.getPublished().getTime().toString());
         if(a.getPictureUrl() != "" && a.getPictureUrl() != null) {
             Picasso.with(context).load(a.getPictureUrl()).placeholder(android.R.drawable.ic_input_add)
                     .error(android.R.drawable.ic_delete).resize((int)DpPixelConverter.convertDpToPixel(78,context),(int)DpPixelConverter.convertDpToPixel(60,context)).into(ivThumb);
         }
+
+        RelativeTimeTextView v = (RelativeTimeTextView)convertView.findViewById(R.id.timestamp);
+        v.setReferenceTime(a.getPublished().getTime().getTime());
 
         return convertView;
     }
