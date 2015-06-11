@@ -8,7 +8,7 @@
               android:orientation="vertical"
               tools:context="com.swt.smartrss.wear.activities.SpritzerActivity"
               tools:deviceIds="wear_square"
-              android:id="@+id/spritzExtrasLinearLO">
+              android:id="@+id/spritzExtrasLinearLO" android:background="@color/dark_blue">
 
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
         <!-- Button1 -->
