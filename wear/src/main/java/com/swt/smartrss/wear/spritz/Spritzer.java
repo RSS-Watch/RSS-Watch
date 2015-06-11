@@ -10,6 +10,8 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import org.speedreading.api.SpeedReadingAPI;
+import org.speedreading.api.WordORP;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
@@ -27,13 +29,14 @@ public class Spritzer {
 
     protected static final int MSG_PRINT_WORD = 1;
 
-    protected static final int MAX_WORD_LENGTH = 13;
     protected static final int CHARS_LEFT_OF_PIVOT = 3;
     protected static final ForegroundColorSpan spanRed = new ForegroundColorSpan(Color.RED);
-    protected String[] mWordArray;                  // A parsed list of words parsed from {@link #setText(String input)}
-    protected ArrayDeque<String> mWordQueue;        // The queue of words from mWordArray yet to be displayed
+    protected ArrayDeque<WordORP> mWordQueue;        // The queue of words from mWordArrayList yet to be displayed
+    protected SpeedReadingAPI speedReadingAPI;
     protected TextView mTarget;
     protected int mWPM;
+    protected int mWordCount;
+    protected String mInput;
     protected Handler mSpritzHandler;
     protected Object mPlayingSync = new Object();
     protected boolean mPlaying;
@@ -50,6 +53,7 @@ public class Spritzer {
         mTarget = target;
         mTarget.setTypeface(Typeface.MONOSPACE);
         mSpritzHandler = new SpritzHandler(this);
+        speedReadingAPI = new SpeedReadingAPI();
     }
 
     public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
@@ -64,27 +68,20 @@ public class Spritzer {
      * @param input
      */
     public void setText(String input) {
-        createWordArrayFromString(input);
-        setMaxProgress();
+        mInput = input;
         refillWordQueue();
+        setMaxProgress();
     }
 
     private void setMaxProgress() {
-        if (mWordArray != null && mProgressBar != null) {
-            mProgressBar.setMax(mWordArray.length);
+        if (mProgressBar != null) {
+            mProgressBar.setMax(mWordCount);
         }
-    }
-
-    private void createWordArrayFromString(String input) {
-        mWordArray = input
-                .replaceAll("/\\s+/g", " ")      // condense adjacent spaces
-                .split(" ");                    // split on spaces
     }
 
     protected void init() {
 
         mDelayStrategy = new DefaultDelayStrategy();
-        mWordQueue = new ArrayDeque<String>();
         mWPM = 500;
         mPlaying = false;
         mPlayingRequested = false;
@@ -133,7 +130,7 @@ public class Spritzer {
      * fed to {@link #setText(String)}
      */
     public void start() {
-        if (mPlaying || mWordArray == null) {
+        if (mPlaying) {
             return;
         }
         if (mWordQueue.isEmpty()) {
@@ -151,8 +148,7 @@ public class Spritzer {
     private void refillWordQueue() {
         updateProgress();
         mCurWordIdx = 0;
-        mWordQueue.clear();
-        mWordQueue.addAll(Arrays.asList(mWordArray));
+        mWordQueue = speedReadingAPI.convertToSpeedReadingText(mInput);
     }
 
     private void updateProgress() {
@@ -176,14 +172,15 @@ public class Spritzer {
      */
     protected void processNextWord() throws InterruptedException {
         if (!mWordQueue.isEmpty()) {
-            String word = mWordQueue.remove();
+            WordORP wop = mWordQueue.remove();
             mCurWordIdx += 1;
-            // Split long words, at hyphen if present
-            word = splitLongWord(word);
 
-            mSpritzHandler.sendMessage(mSpritzHandler.obtainMessage(MSG_PRINT_WORD, word));
+            mSpritzHandler.sendMessage(mSpritzHandler.obtainMessage(MSG_PRINT_WORD, wop.getWord()));
 
-            final int delayMultiplier = mDelayStrategy.delayMultiplier(word);
+            // Removes spaces at the beginning of a word
+            wop.setWord(wop.getWord().substring(3-wop.getOrp()));
+
+            final int delayMultiplier = mDelayStrategy.delayMultiplier(wop.getWord());
             //Do not allow multiplier that is less than 1
             final int wordDelay = getInterWordDelay() * (mDelayStrategy != null ? delayMultiplier < 1 ? 1 : delayMultiplier : 1);
             Thread.sleep(wordDelay);
@@ -192,78 +189,9 @@ public class Spritzer {
         updateProgress();
     }
 
-    /**
-     * Split the given String if appropriate and
-     * add the tail of the split to the head of
-     * {@link #mWordQueue}
-     *
-     * @param word
-     * @return
-     */
-    protected String splitLongWord(String word) {
-        if (word.length() > MAX_WORD_LENGTH) {
-            int splitIndex = findSplitIndex(word);
-            String firstSegment;
-            if (VERBOSE) {
-                Log.i(TAG, "Splitting long word " + word + " into " + word.substring(0, splitIndex) + " and " + word.substring(splitIndex));
-            }
-            firstSegment = word.substring(0, splitIndex);
-            // A word split is always indicated with a hyphen unless ending in a period
-            if (!firstSegment.contains("-") && !firstSegment.endsWith(".")) {
-                firstSegment = firstSegment + "-";
-            }
-            mCurWordIdx--; //have to account for the added word in the queue
-            mWordQueue.addFirst(word.substring(splitIndex));
-            word = firstSegment;
-
-        }
-        return word;
-    }
-
-    /**
-     * Determine the split index on a given String
-     * e.g If it exceeds MAX_WORD_LENGTH or contains a hyphen
-     *
-     * @param thisWord
-     * @return the index on which to split the given String
-     */
-    private int findSplitIndex(String thisWord) {
-        int splitIndex;
-        // Split long words, at hyphen or dot if present.
-        if (thisWord.contains("-")) {
-            splitIndex = thisWord.indexOf("-") + 1;
-        } else if (thisWord.contains(".")) {
-            splitIndex = thisWord.indexOf(".") + 1;
-        } else if (thisWord.length() > MAX_WORD_LENGTH * 2) {
-            // if the word is floccinaucinihilipilifcation, for example.
-            splitIndex = MAX_WORD_LENGTH - 1;
-            // 12 characters plus a "-" == 13.
-        } else {
-            // otherwise we want to split near the middle.
-            splitIndex = Math.round(thisWord.length() / 2F);
-        }
-        // in case we found a split character that was > MAX_WORD_LENGTH characters in.
-        if (splitIndex > MAX_WORD_LENGTH) {
-            // If we split the word at a splitting char like "-" or ".", we added one to the splitIndex
-            // in order to ensure the splitting char appears at the head of the split. Not accounting
-            // for this in the recursive call will cause a StackOverflowException
-            return findSplitIndex(thisWord.substring(0,
-                    wordContainsSplittingCharacter(thisWord) ? splitIndex - 1 : splitIndex));
-        }
-        if (VERBOSE) {
-            Log.i(TAG, "Splitting long word " + thisWord + " into " + thisWord.substring(0, splitIndex) +
-                    " and " + thisWord.substring(splitIndex));
-        }
-        return splitIndex;
-    }
-
-    private boolean wordContainsSplittingCharacter(String word) {
-        return (word.contains(".") || word.contains("-"));
-    }
-
     private void printLastWord() {
-        if (mWordArray != null) {
-            printWord(mWordArray[mWordArray.length - 1]);
+        if (mWordQueue != null) {
+            printWord(mWordQueue.getLast().getWord());
         }
     }
 
@@ -275,39 +203,11 @@ public class Spritzer {
      * @param word
      */
     private void printWord(String word) {
-        int startSpan = 0;
-        int endSpan = 0;
-        word = word.trim();
-        if (VERBOSE) Log.i(TAG + word.length(), word);
-        if (word.length() == 1) {
-            StringBuilder builder = new StringBuilder();
-            for (int x = 0; x < CHARS_LEFT_OF_PIVOT; x++) {
-                builder.append(" ");
-            }
-            builder.append(word);
-            word = builder.toString();
-            startSpan = CHARS_LEFT_OF_PIVOT;
-            endSpan = startSpan + 1;
-        } else if (word.length() <= CHARS_LEFT_OF_PIVOT * 2) {
-            StringBuilder builder = new StringBuilder();
-            int halfPoint = word.length() / 2;
-            int beginPad = CHARS_LEFT_OF_PIVOT - halfPoint;
-            for (int x = 0; x <= beginPad; x++) {
-                builder.append(" ");
-            }
-            builder.append(word);
-            word = builder.toString();
-            startSpan = halfPoint + beginPad;
-            endSpan = startSpan + 1;
-            if (VERBOSE) Log.i(TAG + word.length(), "pivot: " + word.substring(startSpan, endSpan));
-        } else {
-            startSpan = CHARS_LEFT_OF_PIVOT;
-            endSpan = startSpan + 1;
-        }
 
         Spannable spanRange = new SpannableString(word);
-        spanRange.setSpan(spanRed, startSpan, endSpan, 0);
+        spanRange.setSpan(spanRed, 3, 4, 0);
         mTarget.setText(spanRange, TextView.BufferType.SPANNABLE);
+
     }
 
     public void pause() {
@@ -365,14 +265,6 @@ public class Spritzer {
                 }).start();
             }
         }
-    }
-
-    public String[] getWordArray() {
-        return mWordArray;
-    }
-
-    public ArrayDeque<String> getWordQueue() {
-        return mWordQueue;
     }
 
     public void attachProgressBar(ProgressBar bar) {
