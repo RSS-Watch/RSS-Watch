@@ -1,9 +1,12 @@
 package com.swt.smartrss.wear.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,11 +42,18 @@ public class SpritzerActivity extends Activity {
             public void onLayoutInflated(WatchViewStub watchViewStub) {
 
                 SpritzSectionsScrollView view = (SpritzSectionsScrollView) stub.findViewById(R.id.spritzScrollView);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
+
                 ArrayList aList = new ArrayList();
                 aList.add("spritzerLayout");
                 aList.add("spritzerExtrasLayout");
 
-                view.setFeatureItems(aList);
+                view.setFeatureItems(aList, width, height);
 
                 spritzTV = (SpritzerTextView) stub.findViewById(R.id.spritzTV);
                 spritzTV.setOnClickListener(new View.OnClickListener() {
@@ -62,22 +72,22 @@ public class SpritzerActivity extends Activity {
                 spritzTV.setSpritzText(intent.getStringExtra(ReaderActivity.TEXT));
                 spritzTV.setWpm(intent.getIntExtra(ReaderActivity.WPM, 350));
 
-                linearLO = (LinearLayout) stub.findViewById(R.id.spritzLinearLO);
-                if (linearLO != null) {
-                    linearLO.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View view, MotionEvent motionEvent) {
-                            if (isPlaying) {
-                                spritzTV.pause();
-                                isPlaying = false;
-                            } else {
-                                spritzTV.play();
-                                isPlaying = true;
-                            }
-                            return false;
-                        }
-                    });
-                }
+//                linearLO = (LinearLayout) stub.findViewById(R.id.spritzLinearLO);
+//                if (linearLO != null) {
+//                    linearLO.setOnTouchListener(new View.OnTouchListener() {
+//                        @Override
+//                        public boolean onTouch(View view, MotionEvent motionEvent) {
+//                            if (isPlaying) {
+//                                spritzTV.pause();
+//                                isPlaying = false;
+//                            } else {
+//                                spritzTV.play();
+//                                isPlaying = true;
+//                            }
+//                            return false;
+//                        }
+//                    });
+//                }
             }
         });
     }

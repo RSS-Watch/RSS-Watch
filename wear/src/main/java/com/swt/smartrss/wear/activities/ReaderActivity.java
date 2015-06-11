@@ -70,7 +70,7 @@ public class ReaderActivity extends Activity {
     }
 
     protected void spritzerTest(Context context) {
-        String text = "This is just a test and an example text to test the spitz textview with the spritz text split function";
+        String text = "This is just a test and an example with a large woooooooooooooooooooooord text to test the spitz textview with the spritz text split function";
         int wpm = 300;
 
         Intent intent = new Intent(this, SpritzerActivity.class);
