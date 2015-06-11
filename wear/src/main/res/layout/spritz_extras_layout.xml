@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Extras Layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_weight="0"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              tools:context="com.swt.smartrss.wear.activities.SpritzerActivity"
+              tools:deviceIds="wear_square"
+              android:id="@+id/spritzExtrasLinearLO">
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <!-- Button1 -->
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text1"
+                android:id="@+id/buttons1"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/buttons2"/>
+        <!-- Button2 -->
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text2"
+                android:id="@+id/buttons2"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+        <!-- Button3 -->
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text3"
+                android:id="@+id/buttons3"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/buttons2"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

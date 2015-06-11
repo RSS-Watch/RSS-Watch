@@ -1,15 +1,20 @@
 package com.swt.smartrss.wear.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import com.swt.smartrss.wear.R;
+import com.swt.smartrss.wear.spritz.SpritzSectionsScrollView;
 import com.swt.smartrss.wear.spritz.SpritzerTextView;
+
+import java.util.ArrayList;
 
 /**
  * Activity to !spritz! a given String with a special SpritzTextView on the screen
@@ -18,7 +23,9 @@ public class SpritzerActivity extends Activity {
 
     private static SpritzerTextView spritzTV;
     private LinearLayout linearLO;
-    private RelativeLayout relativeLO;
+    private LinearLayout internalWrapper;
+    private LinearLayout spritzLayout;
+    private LinearLayout spritzExtrasLayout;
     private boolean isPlaying;
     private Intent intent;
 
@@ -34,6 +41,20 @@ public class SpritzerActivity extends Activity {
             @Override
             public void onLayoutInflated(WatchViewStub watchViewStub) {
 
+                SpritzSectionsScrollView view = (SpritzSectionsScrollView) stub.findViewById(R.id.spritzScrollView);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
+
+                ArrayList aList = new ArrayList();
+                aList.add("spritzerLayout");
+                aList.add("spritzerExtrasLayout");
+
+                view.setFeatureItems(aList, width, height);
+
                 spritzTV = (SpritzerTextView) stub.findViewById(R.id.spritzTV);
                 spritzTV.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -47,28 +68,33 @@ public class SpritzerActivity extends Activity {
                         }
                     }
                 });
+
                 spritzTV.setSpritzText(intent.getStringExtra(ReaderActivity.TEXT));
                 spritzTV.setWpm(intent.getIntExtra(ReaderActivity.WPM, 350));
 
-                linearLO = (LinearLayout) stub.findViewById(R.id.linearLO);
-                if (linearLO != null) {
-                    linearLO.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View view, MotionEvent motionEvent) {
-                            if (isPlaying) {
-                                spritzTV.pause();
-                                isPlaying = false;
-                            } else {
-                                spritzTV.play();
-                                isPlaying = true;
-                            }
-                            return false;
-                        }
-                    });
-                }
+                /**
+                 * former function to stop start via touch on layout - not needed because of swipe & scroll events
+                 */
+//                linearLO = (LinearLayout) stub.findViewById(R.id.spritzLinearLO);
+//                if (linearLO != null) {
+//                    linearLO.setOnTouchListener(new View.OnTouchListener() {
+//                        @Override
+//                        public boolean onTouch(View view, MotionEvent motionEvent) {
+//                            if (isPlaying) {
+//                                spritzTV.pause();
+//                                isPlaying = false;
+//                            } else {
+//                                spritzTV.play();
+//                                isPlaying = true;
+//                            }
+//                            return false;
+//                        }
+//                    });
+//                }
             }
         });
     }
+
 
     @Override
     protected void onResume() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Spritzer Layout -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_weight="1"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  tools:context="com.swt.smartrss.wear.activities.SpritzerActivity"
+                  tools:deviceIds="wear_square"
+                  android:id="@+id/spritzLinearLO">
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <!-- Spritzer TextView -->
+        <com.swt.smartrss.wear.spritz.SpritzerTextView
+                android:id="@+id/spritzTV"
+                android:layout_margin="5dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    </LinearLayout>
