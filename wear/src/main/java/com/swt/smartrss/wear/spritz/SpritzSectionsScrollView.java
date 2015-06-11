@@ -50,7 +50,7 @@ public class SpritzSectionsScrollView extends ScrollView {
         LinearLayout spritzLayout = (LinearLayout) View.inflate(this.getContext(), R.layout.spritz_layout, null);
         LinearLayout spritzExtrasLayout = (LinearLayout) View.inflate(this.getContext(), R.layout.spritz_extras_layout, null);
 
-        SpritzerTextView stv = (SpritzerTextView) spritzLayout.findViewById(R.id.spritzTV);
+        final SpritzerTextView stv = (SpritzerTextView) spritzLayout.findViewById(R.id.spritzTV);
 
         spritzLayout.setMinimumWidth(width);
         spritzLayout.setMinimumHeight(height);
@@ -71,6 +71,9 @@ public class SpritzSectionsScrollView extends ScrollView {
                     int scrollY = getScrollY();
                     int featureHeight = v.getMeasuredHeight();
                     mActiveFeature = ((scrollY + (featureHeight / 2)) / featureHeight);
+                    if (mActiveFeature > 0) {
+                        stv.pause();
+                    }
                     int scrollTo = mActiveFeature * featureHeight;
 
                     smoothScrollTo(0, scrollTo);
@@ -80,10 +83,18 @@ public class SpritzSectionsScrollView extends ScrollView {
                 }
             }
         });
-        mGestureDetector = new GestureDetector(new MyGestureDetector());
+        mGestureDetector = new GestureDetector(new SpritzGestureDetector(stv));
     }
 
-    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+    class SpritzGestureDetector extends GestureDetector.SimpleOnGestureListener {
+
+        private SpritzerTextView mSpritzTextView;
+        private Context mContext;
+
+        public SpritzGestureDetector(SpritzerTextView view) {
+            mSpritzTextView = view;
+        }
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
@@ -92,6 +103,7 @@ public class SpritzSectionsScrollView extends ScrollView {
                     int featureHeight = getMeasuredHeight();
                     mActiveFeature = (mActiveFeature < (mItems.size() - 1)) ? mActiveFeature + 1 : mItems.size() - 1;
                     smoothScrollTo(0, mActiveFeature * featureHeight);
+                    mSpritzTextView.pause();
                     return true;
 
                 }

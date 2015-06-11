@@ -72,6 +72,9 @@ public class SpritzerActivity extends Activity {
                 spritzTV.setSpritzText(intent.getStringExtra(ReaderActivity.TEXT));
                 spritzTV.setWpm(intent.getIntExtra(ReaderActivity.WPM, 350));
 
+                /**
+                 * former function to stop start via touch on layout - not needed because of swipe & scroll events
+                 */
 //                linearLO = (LinearLayout) stub.findViewById(R.id.spritzLinearLO);
 //                if (linearLO != null) {
 //                    linearLO.setOnTouchListener(new View.OnTouchListener() {
