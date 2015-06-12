@@ -54,9 +54,9 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ReaderActivity.class);
                 ArticleData current = adapter.getItem(position);
-                i.putExtra("title", adapter.getItem(position).getTitle());
-                i.putExtra("text",adapter.getItem(position).getText());
-                i.putExtra("picUrl",adapter.getItem(position).getPictureUrl());
+                i.putExtra("title", current.getTitle());
+                i.putExtra("text",current.getText());
+                i.putExtra("picUrl",current.getPictureUrl());
                 startActivity(i);
             }
         });

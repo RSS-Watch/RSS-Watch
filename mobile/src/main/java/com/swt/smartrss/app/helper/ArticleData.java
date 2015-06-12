@@ -16,16 +16,19 @@ public class ArticleData {
     private String text;
     private Calendar published;
     private String pictureUrl;
+    private String source;
 
     public ArticleData() {
         title = "";
         text = "";
         published = new GregorianCalendar();
         pictureUrl = "";
+        source = "";
     }
 
     public ArticleData(Article a) {
         this.title = a.getTitle();
+        this.source = formatSource(a.getOriginId());
         if (a.getContent() != null && !a.getContent().isEmpty())
             this.text = a.getContent();
         else
@@ -39,6 +42,22 @@ public class ArticleData {
         Elements imgUrl = doc.select("img");
         String test =  imgUrl.attr("src");
         return test;
+    }
+
+    private String formatSource(String src) {
+        //remove http://www. from the url
+        if (src.startsWith("http://www."))
+            src = src.substring(11);
+        else if (src.startsWith("http://"))
+            src = src.substring(7);
+        else if (src.startsWith("www.")) {
+            src = src.substring(4);
+        }
+
+        //remove everything after the /
+        src = src.substring(0,src.indexOf("/"));
+
+        return src;
     }
 
     public Calendar getPublished() {
@@ -71,5 +90,13 @@ public class ArticleData {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }
