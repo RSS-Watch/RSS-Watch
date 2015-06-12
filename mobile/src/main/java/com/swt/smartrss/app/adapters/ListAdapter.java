@@ -47,7 +47,7 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
         tvTitle.setText(a.getTitle());
         //tvInfo.setText(a.getPublished().getTime().toString());
         if(a.getPictureUrl() != "" && a.getPictureUrl() != null) {
-            Picasso.with(context).load(a.getPictureUrl()).placeholder(android.R.drawable.ic_input_add)
+            Picasso.with(context).load(a.getPictureUrl())
                     .error(android.R.drawable.ic_delete).resize((int)DpPixelConverter.convertDpToPixel(78,context),(int)DpPixelConverter.convertDpToPixel(60,context)).into(ivThumb);
         }
 

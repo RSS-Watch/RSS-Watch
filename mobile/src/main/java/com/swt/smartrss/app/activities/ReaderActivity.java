@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 import com.swt.smartrss.app.R;
+import com.swt.smartrss.app.helper.DpPixelConverter;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReaderActivity extends Activity {
 
@@ -16,7 +22,7 @@ public class ReaderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
         TextView textViewTitle = (TextView)findViewById(R.id.textViewTitle);
-        //TextView textViewText = (TextView) findViewById(R.id.textViewText);
+        ImageView imageViewTop = (ImageView)findViewById(R.id.imageViewTop);
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -25,10 +31,31 @@ public class ReaderActivity extends Activity {
         Intent i = getIntent();
         String title = i.getStringExtra("title");
         String text = i.getStringExtra("text");
+        String picUrl = i.getStringExtra("picUrl");
+
+
+        //This codeblock removes all pictures from the html code
+        Pattern removePictures = Pattern.compile("\\<img.*?\\>");
+        Matcher matcher = removePictures.matcher(text);
+        while (matcher.find()) {
+            text = text.replaceAll(matcher.group(),"");
+        }
+
+        //This codeblock removes every iframe from the html code
+        Pattern removeIframe = Pattern.compile("\\<iframe.*?\\</iframe>");
+        Matcher iframeMatcher = removeIframe.matcher(text);
+        while (iframeMatcher.find()) {
+            text = text.replaceAll(iframeMatcher.group(),"");
+        }
 
         textViewTitle.setText(title);
-        //textViewText.setText(text);
         webView.loadDataWithBaseURL("",text,"text/html","UTF-8","");
+        webView.setScrollContainer(false);
+
+        if(picUrl != "" && picUrl != null) {
+            Picasso.with(getApplicationContext()).load(picUrl)
+                    .error(android.R.drawable.ic_delete).into(imageViewTop);
+        }
     }
 
 

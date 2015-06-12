@@ -29,19 +29,6 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:textAlignment="center"/>
-        <!--<TextView
-                android:layout_toRightOf="@id/imageView"
-                android:layout_below="@id/textViewTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hier stehen die relevanten Informationen"
-                android:textSize="12sp"
-                android:id="@+id/textViewInfo"
-                android:layout_gravity="left"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"/>
-                -->
         <com.github.curioustechizen.ago.RelativeTimeTextView
                 android:layout_toRightOf="@id/imageView"
                 android:layout_below="@id/textViewTitle"

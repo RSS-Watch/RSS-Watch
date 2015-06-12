@@ -56,6 +56,7 @@ public class MainActivity extends Activity {
                 ArticleData current = adapter.getItem(position);
                 i.putExtra("title", adapter.getItem(position).getTitle());
                 i.putExtra("text",adapter.getItem(position).getText());
+                i.putExtra("picUrl",adapter.getItem(position).getPictureUrl());
                 startActivity(i);
             }
         });
