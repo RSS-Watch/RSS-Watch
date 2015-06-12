@@ -22,10 +22,6 @@ import java.util.ArrayList;
 public class SpritzerActivity extends Activity {
 
     private static SpritzerTextView spritzTV;
-    private LinearLayout linearLO;
-    private LinearLayout internalWrapper;
-    private LinearLayout spritzLayout;
-    private LinearLayout spritzExtrasLayout;
     private boolean isPlaying;
     private Intent intent;
 
@@ -34,27 +30,42 @@ public class SpritzerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spritzer);
 
+        /**
+         * Getting the intent for current activity
+         */
         intent = getIntent();
+
+        /**
+         * final Spritztextview for setting onClickListener
+         */
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
 
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub watchViewStub) {
 
-                SpritzSectionsScrollView view = (SpritzSectionsScrollView) stub.findViewById(R.id.spritzScrollView);
+                SpritzSectionsScrollView spritzScrollView = (SpritzSectionsScrollView) stub.findViewById(R.id.spritzScrollView);
 
+                /**
+                 * Getting display size for
+                 */
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
                 int width = size.x;
                 int height = size.y;
 
+                /**
+                 * Adding layouts to scrollview
+                 */
                 ArrayList aList = new ArrayList();
                 aList.add("spritzerLayout");
                 aList.add("spritzerExtrasLayout");
+                spritzScrollView.setFeatureItems(aList, width, height);
 
-                view.setFeatureItems(aList, width, height);
-
+                /**
+                 * Setting up click listener events to spritzTextView
+                 */
                 spritzTV = (SpritzerTextView) stub.findViewById(R.id.spritzTV);
                 spritzTV.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -69,33 +80,18 @@ public class SpritzerActivity extends Activity {
                     }
                 });
 
+                /**
+                 * Getting configuration via intent for spritzTextView
+                 */
                 spritzTV.setSpritzText(intent.getStringExtra(ReaderActivity.TEXT));
                 spritzTV.setWpm(intent.getIntExtra(ReaderActivity.WPM, 350));
-
-                /**
-                 * former function to stop start via touch on layout - not needed because of swipe & scroll events
-                 */
-//                linearLO = (LinearLayout) stub.findViewById(R.id.spritzLinearLO);
-//                if (linearLO != null) {
-//                    linearLO.setOnTouchListener(new View.OnTouchListener() {
-//                        @Override
-//                        public boolean onTouch(View view, MotionEvent motionEvent) {
-//                            if (isPlaying) {
-//                                spritzTV.pause();
-//                                isPlaying = false;
-//                            } else {
-//                                spritzTV.play();
-//                                isPlaying = true;
-//                            }
-//                            return false;
-//                        }
-//                    });
-//                }
             }
         });
     }
 
-
+    /**
+     * onResume: called on resuming activity, starting to spritz the text
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -106,6 +102,9 @@ public class SpritzerActivity extends Activity {
         }
     }
 
+    /**
+     * onPause: called pausing the activity, stopping to spritz the text
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -116,6 +115,11 @@ public class SpritzerActivity extends Activity {
         }
     }
 
+    /**
+     * onWindowFocusChanged: workaround for inflated views: called when everything is finished,
+     * guarantees finished views and starting to spritz
+     * @param hasFocus
+     */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
