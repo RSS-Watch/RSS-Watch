@@ -15,7 +15,6 @@ import org.speedreading.api.WordORP;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 
 
 /**
@@ -70,6 +69,7 @@ public class Spritzer {
     public void setText(String input) {
         mInput = input;
         refillWordQueue();
+        mWordCount = mWordQueue.size();
         setMaxProgress();
     }
 
@@ -178,9 +178,15 @@ public class Spritzer {
             mSpritzHandler.sendMessage(mSpritzHandler.obtainMessage(MSG_PRINT_WORD, wop.getWord()));
 
             // Removes spaces at the beginning of a word
-            wop.setWord(wop.getWord().substring(3-wop.getOrp()));
+            wop.setWord(wop.getWord().substring(3 - wop.getOrp()));
 
-            final int delayMultiplier = mDelayStrategy.delayMultiplier(wop.getWord());
+            final int delayMultiplier;
+
+            if (mWordQueue.size() == mWordCount - 1)
+                delayMultiplier = mDelayStrategy.getStartDelay();
+            else
+                delayMultiplier = mDelayStrategy.delayMultiplier(wop.getWord());
+
             //Do not allow multiplier that is less than 1
             final int wordDelay = getInterWordDelay() * (mDelayStrategy != null ? delayMultiplier < 1 ? 1 : delayMultiplier : 1);
             Thread.sleep(wordDelay);

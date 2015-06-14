@@ -5,6 +5,8 @@ package com.swt.smartrss.wear.spritz;
  */
 public interface DelayStrategy {
 
+    int getStartDelay();
+
     /**
      * A delay strategy for @see{@link com.andrewgiang.textspritzer.lib.Spritzer#processNextWord()} that
      * will determine how long the Thread
