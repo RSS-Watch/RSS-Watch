@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.swt.smartrss.app.R;
-import com.swt.smartrss.app.helper.DpPixelConverter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
