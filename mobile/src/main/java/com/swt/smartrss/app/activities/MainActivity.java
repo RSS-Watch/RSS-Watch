@@ -61,7 +61,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        FeedManager feedManager = new FeedManager(FeedlyApiProvider.getApi(stateManager.getAndroidPreferences().getFeedlyToken()));
+        FeedlyApiProvider.setAccessToken(stateManager.getAndroidPreferences().getFeedlyToken());
+        FeedManager feedManager = new FeedManager(FeedlyApiProvider.getApi());
         feedManager.getLatestArticles(10, new Callback<Stream>() {
             @Override
             public void success(Stream stream, Response response) {
