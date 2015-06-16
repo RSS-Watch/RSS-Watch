@@ -21,6 +21,7 @@ import java.util.ArrayDeque;
  * Spritzer parses a String into a Queue
  * of words, and displays them one-by-one
  * onto a TextView at a given WPM.
+ * TODO REMOVE UNUSED METHODS!
  */
 public class Spritzer {
     protected static final String TAG = "Spritzer";
@@ -56,9 +57,9 @@ public class Spritzer {
         speedReadingAPI = new SpeedReadingAPI();
     }
 
-    public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
-        mOnCompletionListener = onCompletionListener;
-    }
+//    public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
+//        mOnCompletionListener = onCompletionListener;
+//    }
 
     /**
      * Prepare to Spritz the given String input
@@ -90,16 +91,16 @@ public class Spritzer {
         mCurWordIdx = 0;
     }
 
-    public int getMinutesRemainingInQueue() {
-        if (mWordQueue.size() == 0) {
-            return 0;
-        }
-        return mWordQueue.size() / mWPM;
-    }
+//    public int getMinutesRemainingInQueue() {
+//        if (mWordQueue.size() == 0) {
+//            return 0;
+//        }
+//        return mWordQueue.size() / mWPM;
+//    }
 
-    public int getWpm() {
-        return mWPM;
-    }
+//    public int getWpm() {
+//        return mWPM;
+//    }
 
     /**
      * Set the target Word Per Minute rate.
@@ -111,20 +112,19 @@ public class Spritzer {
         mWPM = wpm;
     }
 
-    /**
-     * Swap the target TextView. Call this if your
-     * host Activity is Destroyed and Re-Created.
-     * Effective immediately.
-     *
-     * @param target
-     */
-    public void swapTextView(TextView target) {
-        mTarget = target;
-        if (!mPlaying) {
-            printLastWord();
-        }
-
-    }
+//    /**
+//     * Swap the target TextView. Call this if your
+//     * host Activity is Destroyed and Re-Created.
+//     * Effective immediately.
+//     *
+//     * @param target
+//     */
+//    public void swapTextView(TextView target) {
+//        mTarget = target;
+//        if (!mPlaying) {
+//            printLastWord();
+//        }
+//    }
 
     /**
      * Start displaying the String input
@@ -206,11 +206,11 @@ public class Spritzer {
         updateProgress();
     }
 
-    private void printLastWord() {
-        if (mWordQueue != null) {
-            printWord(mWordQueue.getLast().getWord());
-        }
-    }
+//    private void printLastWord() {
+//        if (mWordQueue != null) {
+//            printWord(mWordQueue.getLast().getWord());
+//        }
+//    }
 
     /**
      * Applies the given String to this Spritzer's TextView,
@@ -284,19 +284,19 @@ public class Spritzer {
         }
     }
 
-    public void attachProgressBar(ProgressBar bar) {
-        if (bar != null) {
-            mProgressBar = bar;
-        }
-    }
+//    public void attachProgressBar(ProgressBar bar) {
+//        if (bar != null) {
+//            mProgressBar = bar;
+//        }
+//    }
 
-    /**
-     * @param strategy @see{@link DelayStrategy#delayMultiplier(String) }
-     */
-    public void setDelayStrategy(DelayStrategy strategy) {
-        mDelayStrategy = strategy;
-
-    }
+//    /**
+//     * @param strategy @see{@link DelayStrategy#delayMultiplier(String) }
+////     */
+//    public void setDelayStrategy(DelayStrategy strategy) {
+//        mDelayStrategy = strategy;
+//
+//    }
 
 
     public interface OnCompletionListener {

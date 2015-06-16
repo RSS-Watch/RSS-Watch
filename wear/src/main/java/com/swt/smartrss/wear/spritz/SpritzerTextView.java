@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.swt.smartrss.wear.R;
 
 /**
- * Created by andrewgiang on 3/3/14.
+ * Customized by Andrej Schäfer
+ * TODO REMOVE UNUSED METHODS!
  */
 public class SpritzerTextView extends TextView implements View.OnClickListener {
     public static final String TAG = SpritzerTextView.class.getName();
@@ -43,16 +44,16 @@ public class SpritzerTextView extends TextView implements View.OnClickListener {
         init(attrs);
     }
 
-    /**
-     * Register a callback for when the view has been clicked
-     * <p/>
-     * Note: it is mandatory to use the clickControls
-     *
-     * @param listener
-     */
-    public void setOnClickControlListener(OnClickControlListener listener) {
-        mClickControlListener = listener;
-    }
+//    /**
+//     * Register a callback for when the view has been clicked
+//     * <p/>
+//     * Note: it is mandatory to use the clickControls
+//     *
+//     * @param listener
+//     */
+//    public void setOnClickControlListener(OnClickControlListener listener) {
+//        mClickControlListener = listener;
+//    }
 
     private void init(AttributeSet attrs) {
         setAdditionalPadding(attrs);
@@ -160,16 +161,16 @@ public class SpritzerTextView extends TextView implements View.OnClickListener {
         mSpritzer.setText(input);
     }
 
-    /**
-     * If true, this view will automatically pause or play spritz text upon view clicks
-     * <p/>
-     * If false, the callback OnClickControls are not invoked and
-     *
-     * @param useDefaultClickControls
-     */
-    public void setUseClickControls(boolean useDefaultClickControls) {
-        mDefaultClickListener = useDefaultClickControls;
-    }
+//    /**
+//     * If true, this view will automatically pause or play spritz text upon view clicks
+//     * <p/>
+//     * If false, the callback OnClickControls are not invoked and
+//     *
+//     * @param useDefaultClickControls
+//     */
+//    public void setUseClickControls(boolean useDefaultClickControls) {
+//        mDefaultClickListener = useDefaultClickControls;
+//    }
 
     /**
      * Will play the spritz text that was set in setSpritzText
@@ -182,9 +183,9 @@ public class SpritzerTextView extends TextView implements View.OnClickListener {
         mSpritzer.pause();
     }
 
-    public int getWpm() {
-        return mSpritzer.getWpm();
-    }
+//    public int getWpm() {
+//        return mSpritzer.getWpm();
+//    }
 
     /**
      * This determines the words per minute the sprizter will read at
@@ -195,36 +196,36 @@ public class SpritzerTextView extends TextView implements View.OnClickListener {
         mSpritzer.setWpm(wpm);
     }
 
-    public void attachProgressBar(ProgressBar bar) {
-        mSpritzer.attachProgressBar(bar);
+//    public void attachProgressBar(ProgressBar bar) {
+//        mSpritzer.attachProgressBar(bar);
+//
+//    }
 
-    }
+//    public void setOnCompletionListener(Spritzer.OnCompletionListener listener) {
+//
+//        mSpritzer.setOnCompletionListener(listener);
+//    }
 
-    public void setOnCompletionListener(Spritzer.OnCompletionListener listener) {
+//    /**
+//     * @param strategy @see {@link DelayStrategy#delayMultiplier(String)}
+//     */
+//    public void setDelayStrategy(DelayStrategy strategy) {
+//        mSpritzer.setDelayStrategy(strategy);
+//    }
 
-        mSpritzer.setOnCompletionListener(listener);
-    }
+//    public Spritzer getSpritzer() {
+//        return mSpritzer;
+//    }
 
-    /**
-     * @param strategy @see {@link DelayStrategy#delayMultiplier(String)}
-     */
-    public void setDelayStrategy(DelayStrategy strategy) {
-        mSpritzer.setDelayStrategy(strategy);
-    }
-
-    public Spritzer getSpritzer() {
-        return mSpritzer;
-    }
-
-    /**
-     * Set a custom spritzer
-     *
-     * @param spritzer
-     */
-    public void setSpritzer(Spritzer spritzer) {
-        mSpritzer = spritzer;
-        mSpritzer.swapTextView(this);
-    }
+//    /**
+//     * Set a custom spritzer
+//     *
+//     * @param spritzer
+//     */
+//    public void setSpritzer(Spritzer spritzer) {
+//        mSpritzer = spritzer;
+//        mSpritzer.swapTextView(this);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -242,13 +243,13 @@ public class SpritzerTextView extends TextView implements View.OnClickListener {
 
     }
 
-    public int getCurrentWordIndex() {
-        return mSpritzer.mCurWordIdx;
-    }
+//    public int getCurrentWordIndex() {
+//        return mSpritzer.mCurWordIdx;
+//    }
 
-    public int getMinutesRemainingInQueue() {
-        return mSpritzer.getMinutesRemainingInQueue();
-    }
+//    public int getMinutesRemainingInQueue() {
+//        return mSpritzer.getMinutesRemainingInQueue();
+//    }
 
     /**
      * Interface definition for a callback to be invoked when the

@@ -15,13 +15,14 @@ import java.util.ArrayList;
 /**
  * Class SpritzSectionsScrollView creates a ScrollView to seperate the Spritz text view and extras buttons
  * Created by Andrej on 09.06.2015.
+ * TODO REMOVE UNUSED METHODS!
  */
 public class SpritzSectionsScrollView extends ScrollView {
     /**
      * Minimum swipe distance and swipe kspeed/velocity
      */
     private static final int SWIPE_MIN_DISTANCE = 5;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 300;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
     private ArrayList mItems = null;
     private GestureDetector mGestureDetector;
