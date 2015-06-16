@@ -2,6 +2,7 @@ package com.swt.smartrss.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,8 +37,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
-        stateManager.getAndroidPreferences().setFeedlyToken("AgPIzVJ7ImEiOiJGZWVkbHkgRGV2ZWxvcGVyIiwiZSI6MTQ0MTAyNTAxODU0NywiaSI6ImZmYTkxNjBmLTc5ZmEtNGExNS05NzMwLWJkM2FhYzcyM2Y3OSIsInAiOjYsInQiOjEsInYiOiJzYW5kYm94IiwidyI6IjIwMTUuMjAiLCJ4Ijoic3RhbmRhcmQifQ:feedlydev");
+        final String token = stateManager.getAndroidPreferences().getFeedlyToken();
 
+        if(token == null || token.isEmpty()) {
+            requestLogin();
+            return;
+        }
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -61,7 +66,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        FeedlyApiProvider.setAccessToken(stateManager.getAndroidPreferences().getFeedlyToken());
+        final String accessToken = stateManager.getAndroidPreferences().getFeedlyToken();
+        FeedlyApiProvider.setAccessToken(accessToken);
         FeedManager feedManager = new FeedManager(FeedlyApiProvider.getApi());
         feedManager.getLatestArticles(10, new Callback<Stream>() {
             @Override
@@ -88,6 +94,12 @@ public class MainActivity extends Activity {
 
 
 
+    }
+
+    private void requestLogin() {
+        Uri uri = Uri.parse("http://sandbox.feedly.com/v3/auth/auth?response_type=code&client_id=sandbox&redirect_uri=http://localhost&scope=https://cloud.feedly.com/subscriptions");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
 
