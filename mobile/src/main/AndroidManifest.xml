@@ -32,6 +32,25 @@
                   android:label="WebViewActivity"
                   android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
+        <activity
+                android:name=".activities.RedirectActivity"
+                android:label="RSS Reader" >
+            <intent-filter>
+                <data
+                        android:host="localhost"
+                        android:pathPrefix="/"
+                        android:scheme="http" />
+                <data
+                        android:host="www.localhost"
+                        android:pathPrefix="/"
+                        android:scheme="http" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
