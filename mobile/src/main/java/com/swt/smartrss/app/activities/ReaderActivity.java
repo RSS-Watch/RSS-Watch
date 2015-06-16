@@ -21,15 +21,15 @@ public class ReaderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
-        TextView textViewTitle = (TextView)findViewById(R.id.textViewTitle);
-        ImageView imageViewTop = (ImageView)findViewById(R.id.imageViewTop);
+        TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        ImageView imageViewTop = (ImageView) findViewById(R.id.imageViewTop);
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Intent i = new Intent(getApplicationContext(),WebViewActivity.class);
-                i.putExtra("url",url);
+                Intent i = new Intent(getApplicationContext(), WebViewActivity.class);
+                i.putExtra("url", url);
                 startActivity(i);
                 return true;
             }
@@ -47,21 +47,21 @@ public class ReaderActivity extends Activity {
         Pattern removePictures = Pattern.compile("\\<img.*?\\>");
         Matcher matcher = removePictures.matcher(text);
         while (matcher.find()) {
-            text = text.replaceAll(matcher.group(),"");
+            text = text.replaceAll(matcher.group(), "");
         }
 
         //This codeblock removes every iframe from the html code
         Pattern removeIframe = Pattern.compile("\\<iframe.*?\\</iframe>");
         Matcher iframeMatcher = removeIframe.matcher(text);
         while (iframeMatcher.find()) {
-            text = text.replaceAll(iframeMatcher.group(),"");
+            text = text.replaceAll(iframeMatcher.group(), "");
         }
 
         textViewTitle.setText(title);
-        webView.loadDataWithBaseURL("",text,"text/html","UTF-8","");
+        webView.loadDataWithBaseURL("", text, "text/html", "UTF-8", "");
         webView.setScrollContainer(false);
 
-        if(picUrl != "" && picUrl != null) {
+        if (picUrl != "" && picUrl != null) {
             Picasso.with(getApplicationContext()).load(picUrl)
                     .error(android.R.drawable.ic_delete).into(imageViewTop);
         }

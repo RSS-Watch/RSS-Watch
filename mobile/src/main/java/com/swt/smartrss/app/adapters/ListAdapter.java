@@ -45,12 +45,12 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
         tvTitle.setText(a.getTitle());
         if (a.getSource() != null && a.getSource() != "")
             tvSource.setText("- " + a.getSource());
-        if(a.getPictureUrl() != "" && a.getPictureUrl() != null) {
+        if (a.getPictureUrl() != "" && a.getPictureUrl() != null) {
             Picasso.with(context).load(a.getPictureUrl())
-                    .error(android.R.drawable.ic_delete).resize((int)DpPixelConverter.convertDpToPixel(78,context),(int)DpPixelConverter.convertDpToPixel(60,context)).centerInside().into(ivThumb);
+                    .error(android.R.drawable.ic_delete).resize((int) DpPixelConverter.convertDpToPixel(78, context), (int) DpPixelConverter.convertDpToPixel(60, context)).centerInside().into(ivThumb);
         }
 
-        RelativeTimeTextView v = (RelativeTimeTextView)convertView.findViewById(R.id.timestamp);
+        RelativeTimeTextView v = (RelativeTimeTextView) convertView.findViewById(R.id.timestamp);
         v.setReferenceTime(a.getPublished().getTime().getTime());
 
         return convertView;

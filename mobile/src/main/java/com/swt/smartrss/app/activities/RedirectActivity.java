@@ -26,6 +26,18 @@ import java.util.Calendar;
 
 public class RedirectActivity extends Activity {
 
+    private static GsonConverter createConverter() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Calendar.class, new JsonDeserializer() {
+            public Calendar deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(json.getAsNumber().longValue());
+                return calendar;
+            }
+        });
+        return new GsonConverter(builder.create());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,18 +84,6 @@ public class RedirectActivity extends Activity {
         }).setConverter(createConverter()).setLogLevel(RestAdapter.LogLevel.FULL).setLog(new AndroidLog("Retrofit")).build();
         return adapter2.create(FeedlyInterface.class);
 //        return FeedlyApiProvider.getApi();
-    }
-
-    private static GsonConverter createConverter() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Calendar.class, new JsonDeserializer() {
-            public Calendar deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(json.getAsNumber().longValue());
-                return calendar;
-            }
-        });
-        return new GsonConverter(builder.create());
     }
 
     public void onFailure(RetrofitError error) {

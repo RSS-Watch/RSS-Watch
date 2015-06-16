@@ -40,7 +40,7 @@ public class ArticleData {
     private String extractPictureUrl() {
         Document doc = Jsoup.parse(text);
         Elements imgUrl = doc.select("img");
-        String test =  imgUrl.attr("src");
+        String test = imgUrl.attr("src");
         return test;
     }
 
@@ -55,7 +55,7 @@ public class ArticleData {
         }
 
         //remove everything after the /
-        src = src.substring(0,src.indexOf("/"));
+        src = src.substring(0, src.indexOf("/"));
 
         return src;
     }

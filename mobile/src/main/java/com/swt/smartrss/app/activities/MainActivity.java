@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.swt.smartrss.app.GlobalApplication;
 import com.swt.smartrss.app.R;
+import com.swt.smartrss.app.adapters.ListAdapter;
 import com.swt.smartrss.app.helper.ArticleData;
 import com.swt.smartrss.app.helper.StateManager;
-import com.swt.smartrss.app.adapters.ListAdapter;
 import org.feedlyapi.FeedManager;
 import org.feedlyapi.model.Article;
 import org.feedlyapi.model.Stream;
@@ -24,13 +22,13 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends Activity {
     private String accountName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +37,7 @@ public class MainActivity extends Activity {
         StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
         final String token = stateManager.getAndroidPreferences().getFeedlyToken();
 
-        if(token == null || token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             requestLogin();
             return;
         }
@@ -60,8 +58,8 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(), ReaderActivity.class);
                 ArticleData current = adapter.getItem(position);
                 i.putExtra("title", current.getTitle());
-                i.putExtra("text",current.getText());
-                i.putExtra("picUrl",current.getPictureUrl());
+                i.putExtra("text", current.getText());
+                i.putExtra("picUrl", current.getPictureUrl());
                 startActivity(i);
             }
         });
@@ -74,7 +72,7 @@ public class MainActivity extends Activity {
             public void success(Stream stream, Response response) {
                 List<Article> articles = stream.getItems();
                 list.clear();
-                for(Article a : articles) {
+                for (Article a : articles) {
                     list.add(new ArticleData(a));
                 }
                 adapter.notifyDataSetChanged();
@@ -90,8 +88,6 @@ public class MainActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
-
-
 
 
     }
@@ -122,7 +118,7 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
             startActivity(intent);
             return true;
-        } else if(id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
             stateManager.getAndroidPreferences().setFeedlyToken(null);
             FeedlyApiProvider.setAccessToken(null);

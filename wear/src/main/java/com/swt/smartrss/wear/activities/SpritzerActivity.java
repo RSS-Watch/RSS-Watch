@@ -1,15 +1,12 @@
 package com.swt.smartrss.wear.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import com.swt.smartrss.wear.R;
 import com.swt.smartrss.wear.spritz.SpritzSectionsScrollView;
 import com.swt.smartrss.wear.spritz.SpritzerTextView;
@@ -118,6 +115,7 @@ public class SpritzerActivity extends Activity {
     /**
      * onWindowFocusChanged: workaround for inflated views: called when everything is finished,
      * guarantees finished views and starting to spritz
+     *
      * @param hasFocus
      */
     @Override

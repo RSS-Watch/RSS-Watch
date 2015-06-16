@@ -5,7 +5,6 @@ import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.swt.smartrss.wear.R;
 
@@ -21,18 +20,6 @@ public class ListAdapter extends WearableListView.Adapter {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mDataset = dataset;
-    }
-
-    public class ItemViewHolder extends WearableListView.ViewHolder {
-        TextView textView;
-        //ImageView imageView;
-
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-
-            textView = (TextView) itemView.findViewById(R.id.textView);
-            //imageView = (ImageView) imageView.findViewById(R.id.imageView);
-        }
     }
 
     public WearableListView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -51,5 +38,17 @@ public class ListAdapter extends WearableListView.Adapter {
     @Override
     public int getItemCount() {
         return mDataset.length;
+    }
+
+    public class ItemViewHolder extends WearableListView.ViewHolder {
+        TextView textView;
+        //ImageView imageView;
+
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+
+            textView = (TextView) itemView.findViewById(R.id.textView);
+            //imageView = (ImageView) imageView.findViewById(R.id.imageView);
+        }
     }
 }
