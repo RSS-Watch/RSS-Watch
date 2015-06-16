@@ -7,7 +7,7 @@ public class DefaultDelayStrategy implements DelayStrategy {
 
     @Override
     public int getStartDelay() {
-        return 9;
+        return 4;
     }
 
     @Override

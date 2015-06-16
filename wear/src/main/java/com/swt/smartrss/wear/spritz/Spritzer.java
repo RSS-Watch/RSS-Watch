@@ -39,6 +39,7 @@ public class Spritzer {
     protected Handler mSpritzHandler;
     protected Object mPlayingSync = new Object();
     protected boolean mPlaying;
+    protected boolean mFirstWordAfterStart;
     protected boolean mPlayingRequested;
     protected boolean mSpritzThreadStarted;
 
@@ -138,6 +139,7 @@ public class Spritzer {
         }
 
         mPlayingRequested = true;
+        mFirstWordAfterStart = true;
         startTimerThread();
     }
 
@@ -175,6 +177,15 @@ public class Spritzer {
             WordORP wop = mWordQueue.remove();
             mCurWordIdx += 1;
 
+            boolean firstWordInQueue = (mWordQueue.size() == mWordCount - 1);
+
+            if (mFirstWordAfterStart && !firstWordInQueue) {
+                mFirstWordAfterStart = false;
+                final int delayMultiplier = mDelayStrategy.getStartDelay();
+                final int startDelay = getInterWordDelay() * (mDelayStrategy != null ? delayMultiplier < 1 ? 1 : delayMultiplier : 1);
+                Thread.sleep(startDelay);
+            }
+
             mSpritzHandler.sendMessage(mSpritzHandler.obtainMessage(MSG_PRINT_WORD, wop.getWord()));
 
             // Removes spaces at the beginning of a word
@@ -182,7 +193,7 @@ public class Spritzer {
 
             final int delayMultiplier;
 
-            if (mWordQueue.size() == mWordCount - 1)
+            if (firstWordInQueue)
                 delayMultiplier = mDelayStrategy.getStartDelay();
             else
                 delayMultiplier = mDelayStrategy.delayMultiplier(wop.getWord());
