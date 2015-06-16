@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SmartRSS</string>
     <string name="settings_title">Settings</string>
+    <string name="recentArticles_title">Recent articles</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -13,4 +14,7 @@
 
     <string name="preference_edit_account">preference_account</string>
     <string name="preference_list_speed">preference_reading_speed</string>
+    <string name="preferences_token_title">Feedly Token</string>
+    <string name="preference_edit_token">preference_token</string>
+    <string name="title_activity_reader">ReaderActivity</string>
 </resources>

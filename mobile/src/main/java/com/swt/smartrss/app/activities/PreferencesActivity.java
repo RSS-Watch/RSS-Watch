@@ -1,8 +1,9 @@
-package com.swt.smartrss.app;
+package com.swt.smartrss.app.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import com.swt.smartrss.app.R;
 
 /**
  * Created by HP on 5/11/2015.
