@@ -122,6 +122,12 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
             startActivity(intent);
             return true;
+        } else if(id == R.id.action_logout) {
+            StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
+            stateManager.getAndroidPreferences().setFeedlyToken(null);
+            FeedlyApiProvider.setAccessToken(null);
+            requestLogin();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
