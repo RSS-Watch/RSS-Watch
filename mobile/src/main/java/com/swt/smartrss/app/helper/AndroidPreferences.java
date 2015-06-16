@@ -17,7 +17,7 @@ public class AndroidPreferences {
 
     public AndroidPreferences(Context context) {
         keyPrefsAccountString = context.getString(R.string.preference_edit_account);
-        keyPrefsFeedlyToken = "preference_token";
+        keyPrefsFeedlyToken = context.getString(R.string.preference_edit_token);
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.prefsEditor = sharedPreferences.edit();
     }

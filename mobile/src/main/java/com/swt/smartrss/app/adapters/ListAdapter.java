@@ -43,7 +43,8 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
         ImageView ivThumb = (ImageView) convertView.findViewById(R.id.imageView);
 
         tvTitle.setText(a.getTitle());
-        tvSource.setText("- " + a.getSource());
+        if (a.getSource() != null && a.getSource() != "")
+            tvSource.setText("- " + a.getSource());
         if(a.getPictureUrl() != "" && a.getPictureUrl() != null) {
             Picasso.with(context).load(a.getPictureUrl())
                     .error(android.R.drawable.ic_delete).resize((int)DpPixelConverter.convertDpToPixel(78,context),(int)DpPixelConverter.convertDpToPixel(60,context)).centerInside().into(ivThumb);

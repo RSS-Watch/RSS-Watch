@@ -36,8 +36,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
-        accountName = stateManager.getAndroidPreferences().getAccountName();
-        Toast.makeText(getApplication(), accountName, Toast.LENGTH_SHORT).show();
+        stateManager.getAndroidPreferences().setFeedlyToken("AgPIzVJ7ImEiOiJGZWVkbHkgRGV2ZWxvcGVyIiwiZSI6MTQ0MTAyNTAxODU0NywiaSI6ImZmYTkxNjBmLTc5ZmEtNGExNS05NzMwLWJkM2FhYzcyM2Y3OSIsInAiOjYsInQiOjEsInYiOiJzYW5kYm94IiwidyI6IjIwMTUuMjAiLCJ4Ijoic3RhbmRhcmQifQ:feedlydev");
+
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         loadingDummy.setTitle("loading");
         list.add(loadingDummy);
 
-        final ListAdapter adapter = new ListAdapter(this,android.R.layout.simple_list_item_1, list);
+        final ListAdapter adapter = new ListAdapter(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,7 +75,12 @@ public class MainActivity extends Activity {
 
             @Override
             public void failure(RetrofitError retrofitError) {
+                list.clear();
+                ArticleData errorDummy = new ArticleData();
+                errorDummy.setTitle("Error loading articles");
                 retrofitError.printStackTrace();
+                list.add(errorDummy);
+                adapter.notifyDataSetChanged();
             }
         });
 

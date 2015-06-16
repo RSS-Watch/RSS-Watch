@@ -7,8 +7,7 @@
                         android:title="@string/preferences_account_title"
                         android:summary="@string/preferences_account_summary"/>
     <EditTextPreference android:key="@string/preference_edit_token"
-                        android:title="@string/preferences_token_title"
-                        android:defaultValue="AkJHV7B7ImEiOiJGZWVkbHkgRGV2ZWxvcGVyIiwiZSI6MTQ0MjA3MzQ5ODg5NywiaSI6ImZmYTkxNjBmLTc5ZmEtNGExNS05NzMwLWJkM2FhYzcyM2Y3OSIsInAiOjYsInQiOjEsInYiOiJzYW5kYm94IiwidyI6IjIwMTUuMjAiLCJ4Ijoic3RhbmRhcmQifQ:feedlydev"/>
+                        android:title="@string/preferences_token_title"/>
     <ListPreference android:key="@string/preference_list_speed"
                     android:title="@string/preferences_reading_speed_title"
                     android:summary="@string/preferences_reading_speed_summary"
