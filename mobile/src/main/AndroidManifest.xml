@@ -28,6 +28,10 @@
             android:label="@string/title_activity_reader"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         </activity>
+        <activity android:name=".activities.WebViewActivity"
+                  android:label="WebViewActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

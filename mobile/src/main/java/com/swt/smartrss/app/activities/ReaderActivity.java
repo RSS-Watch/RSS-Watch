@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -24,6 +25,15 @@ public class ReaderActivity extends Activity {
         ImageView imageViewTop = (ImageView)findViewById(R.id.imageViewTop);
 
         WebView webView = (WebView) findViewById(R.id.webView);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent i = new Intent(getApplicationContext(),WebViewActivity.class);
+                i.putExtra("url",url);
+                startActivity(i);
+                return true;
+            }
+        });
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
 
