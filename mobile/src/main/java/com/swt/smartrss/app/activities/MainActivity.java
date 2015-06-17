@@ -13,14 +13,11 @@ import com.swt.smartrss.app.GlobalApplication;
 import com.swt.smartrss.app.R;
 import com.swt.smartrss.app.adapters.ListAdapter;
 import com.swt.smartrss.app.helper.ArticleData;
+import com.swt.smartrss.app.helper.FeedlyCache;
 import com.swt.smartrss.app.helper.StateManager;
-import org.feedlyapi.FeedManager;
+import com.swt.smartrss.app.interfaces.FeedlyEventInterface;
 import org.feedlyapi.model.Article;
-import org.feedlyapi.model.Stream;
 import org.feedlyapi.retrofit.FeedlyApiProvider;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +25,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     private String accountName;
+    private FeedlyCache feedlyCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +33,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
+        feedlyCache = stateManager.getFeedlyCache();
         final String token = stateManager.getAndroidPreferences().getFeedlyToken();
 
         if (token == null || token.isEmpty()) {
@@ -64,6 +63,28 @@ public class MainActivity extends Activity {
             }
         });
 
+        feedlyCache.addOnclickListener(new FeedlyEventInterface() {
+            @Override
+            public void success() {
+                List<Article> articles = feedlyCache.getArticles();
+                list.clear();
+                for (Article a : articles) {
+                    list.add(new ArticleData(a));
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void failure() {
+                list.clear();
+                ArticleData errorDummy = new ArticleData();
+                errorDummy.setTitle("Error loading articles");
+                list.add(errorDummy);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        feedlyCache.getNewArticles();
+        /*
         final String accessToken = stateManager.getAndroidPreferences().getFeedlyToken();
         FeedlyApiProvider.setAccessToken(accessToken);
         FeedManager feedManager = new FeedManager(FeedlyApiProvider.getApi());
@@ -88,6 +109,7 @@ public class MainActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
+        */
 
 
     }
