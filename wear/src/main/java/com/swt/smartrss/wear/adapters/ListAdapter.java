@@ -6,17 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.swt.smartrss.core.models.ArticleDataModel;
 import com.swt.smartrss.wear.R;
+
+import java.util.List;
 
 /**
  * Created by Florian on 19.05.2015.
  */
 public class ListAdapter extends WearableListView.Adapter {
-    private String[] mDataset;
+    private List<ArticleDataModel> mDataset;
     private Context mContext;
     private LayoutInflater mInflater;
 
-    public ListAdapter(Context context, String[] dataset) {
+    public ListAdapter(Context context, List<ArticleDataModel> dataset) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mDataset = dataset;
@@ -31,13 +34,21 @@ public class ListAdapter extends WearableListView.Adapter {
         ItemViewHolder itemHolder = (ItemViewHolder) holder;
         TextView view = itemHolder.textView;
 
-        view.setText(mDataset[position]);
+        ArticleDataModel articleDataModel = mDataset.get(position);
+        if (articleDataModel != null) {
+            view.setText(mDataset.get(position).title);
+        }
         holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
+    }
+
+    public void setList(List<ArticleDataModel> list) {
+        mDataset.clear();
+        mDataset.addAll(list);
     }
 
     public class ItemViewHolder extends WearableListView.ViewHolder {
