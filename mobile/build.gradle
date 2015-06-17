@@ -19,7 +19,7 @@ android {
     buildToolsVersion "21.0.2"
 
     defaultConfig {
-        applicationId "com.swt.smartrss.app"
+        applicationId "com.swt.smartrss"
         minSdkVersion 18
         targetSdkVersion 18
         versionCode 1
@@ -44,5 +44,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.curioustechizen.android-ago:library:1.3.0'
     compile project(':core')
+    wearApp project(':wear')
     /*compile 'com.github.RSS-Watch:Feedly-API-Client:0.1.1'*/
 }

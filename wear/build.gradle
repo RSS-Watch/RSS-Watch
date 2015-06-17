@@ -20,7 +20,7 @@ android {
     buildToolsVersion "21.0.2"
 
     defaultConfig {
-        applicationId "com.swt.smartrss.wear"
+        applicationId "com.swt.smartrss"
         minSdkVersion 20
         targetSdkVersion 21
         versionCode 1
@@ -42,7 +42,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.support:wearable:1.0.0'
-    compile 'com.google.android.gms:play-services-wearable:6.1.71'
+    compile 'com.google.android.gms:play-services-wearable:+'
     compile 'com.github.rey5137:material:1.1.1'
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.android.support:cardview-v7:21.0.3'
