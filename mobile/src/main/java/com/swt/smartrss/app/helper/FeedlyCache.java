@@ -28,7 +28,8 @@ public class FeedlyCache {
         this.mArticles = new ArrayList<Article>();
     }
 
-    public void addOnclickListener(FeedlyEventInterface listener) {
+    //TODO implement removeListener
+    public void addListener(FeedlyEventInterface listener) {
         mListeners.add(listener);
     }
 
@@ -69,7 +70,7 @@ public class FeedlyCache {
             @Override
             public void failure(RetrofitError retrofitError) {
                 retrofitError.printStackTrace();
-                triggerOnSuccess();
+                triggerOnFailure();
             }
         });
     }

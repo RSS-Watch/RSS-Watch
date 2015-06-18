@@ -41,6 +41,10 @@ public class ListAdapter extends WearableListView.Adapter {
         holder.itemView.setTag(position);
     }
 
+    public ArticleDataModel getItem(int index) {
+        return mDataset.get(index);
+    }
+
     @Override
     public int getItemCount() {
         return mDataset.size();

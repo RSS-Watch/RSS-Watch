@@ -1,6 +1,7 @@
 package com.swt.smartrss.wear.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
@@ -21,9 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public final static String TEXT = "com.swt.smartrss.wear.activities.TEXT";
+    public final static String WPM = "com.swt.smartrss.wear.activities.WPM";
+    public final static String ID = "com.swt.smartrss.wear.activities.ID";
     private static final String TAG = MainActivity.class.getName();
     private ListAdapter mListAdapter;
     private WearableListView mlistView;
+
 
     //communication
     private Node mNode;
@@ -50,7 +55,14 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                 mlistView.setClickListener(new WearableListView.ClickListener() {
                     @Override
                     public void onClick(WearableListView.ViewHolder viewHolder) {
-                        openArticle("id123123123");
+                        Integer index = (Integer) viewHolder.itemView.getTag();
+                        ArticleDataModel articleDataModel = mListAdapter.getItem(index);
+                        Intent intent = new Intent(getApplicationContext(), SpritzerActivity.class);
+                        intent.putExtra(ID, articleDataModel.id);
+                        intent.putExtra(TEXT, articleDataModel.text);
+                        intent.putExtra(WPM, 300);
+                        startActivity(intent);
+                        //openArticle(articleDataModel.id);
                     }
 
                     @Override

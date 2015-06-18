@@ -5,10 +5,17 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.*;
+import com.swt.smartrss.app.GlobalApplication;
+import com.swt.smartrss.app.helper.FeedlyCache;
+import com.swt.smartrss.app.helper.StateManager;
+import com.swt.smartrss.app.interfaces.FeedlyEventInterface;
 import com.swt.smartrss.core.Shared;
 import com.swt.smartrss.core.helper.ObjectSerializer;
 import com.swt.smartrss.core.models.ArticleDataModel;
 import com.swt.smartrss.core.models.ArticleRequestModel;
+import org.feedlyapi.model.Article;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +31,7 @@ public class DataListenerService extends WearableListenerService implements
     private static final String TAG = DataListenerService.class.getName();
 
     private GoogleApiClient mGoogleApiClient;
+    private FeedlyCache feedlyCache;
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -57,13 +65,35 @@ public class DataListenerService extends WearableListenerService implements
         if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
+
+        StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
+        feedlyCache = stateManager.getFeedlyCache();
+        feedlyCache.addListener(new FeedlyEventInterface() {
+            @Override
+            public void success() {
+                syncArticles();
+            }
+
+            @Override
+            public void failure() {
+            }
+        });
     }
 
     private void syncArticles() {
         Log.d(TAG, "syncArticles");
         List<ArticleDataModel> articleDataModel = new ArrayList<ArticleDataModel>();
-        for (int i = 1; i <= 10; i++)
-            articleDataModel.add(new ArticleDataModel("title phone" + i, "text"));
+        List<Article> articles = feedlyCache.getArticles();
+        if (articles.size() > 0) {
+            for (Article article : articles) {
+                Document document = Jsoup.parse(article.getSummary());
+                articleDataModel.add(new ArticleDataModel(article.getId(), article.getTitle(), document.text()));
+            }
+        } else {
+            articleDataModel.add(new ArticleDataModel("", "loading", ""));
+            //TODO implement error handling
+            feedlyCache.getNewArticles();
+        }
 
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(Shared.URI_ARTICLE);
         try {

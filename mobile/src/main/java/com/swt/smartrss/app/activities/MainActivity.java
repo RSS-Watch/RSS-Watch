@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        feedlyCache.addOnclickListener(new FeedlyEventInterface() {
+        feedlyCache.addListener(new FeedlyEventInterface() {
             @Override
             public void success() {
                 List<Article> articles = feedlyCache.getArticles();
