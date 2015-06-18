@@ -17,6 +17,7 @@ public class ArticleData {
     private Calendar published;
     private String pictureUrl;
     private String source;
+    private String url;
 
     public ArticleData() {
         title = "";
@@ -28,6 +29,7 @@ public class ArticleData {
 
     public ArticleData(Article a) {
         this.title = a.getTitle();
+        this.url = a.getOriginId();
         this.source = formatSource(a.getOriginId());
         if (a.getContent() != null && !a.getContent().isEmpty())
             this.text = a.getContent();
@@ -98,5 +100,9 @@ public class ArticleData {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

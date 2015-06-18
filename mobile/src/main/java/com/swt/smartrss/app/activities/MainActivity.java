@@ -57,6 +57,7 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(), ReaderActivity.class);
                 ArticleData current = adapter.getItem(position);
                 i.putExtra("title", current.getTitle());
+                i.putExtra("url", current.getUrl());
                 i.putExtra("text", current.getText());
                 i.putExtra("picUrl", current.getPictureUrl());
                 startActivity(i);
