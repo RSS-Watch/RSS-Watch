@@ -17,6 +17,10 @@ import java.util.regex.Pattern;
 
 public class ReaderActivity extends Activity {
 
+    private String title;
+    private String text;
+    private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +42,9 @@ public class ReaderActivity extends Activity {
         webView.getSettings().setDisplayZoomControls(false);
 
         Intent i = getIntent();
-        String title = i.getStringExtra("title");
-        String text = i.getStringExtra("text");
+        title = i.getStringExtra("title");
+        url = i.getStringExtra("url");
+        text = i.getStringExtra("text");
         String picUrl = i.getStringExtra("picUrl");
 
 
@@ -83,10 +88,19 @@ public class ReaderActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_share) {
+            shareArticle();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareArticle() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, title + '\n' + url);
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_article)));
     }
 }
