@@ -86,7 +86,11 @@ public class DataListenerService extends WearableListenerService implements
         List<Article> articles = feedlyCache.getArticles();
         if (articles.size() > 0) {
             for (Article article : articles) {
-                Document document = Jsoup.parse(article.getSummary());
+                String articleText = article.getContent();
+                if (articleText == null)
+                    articleText = article.getSummary();
+
+                Document document = Jsoup.parse(articleText);
                 articleDataModel.add(new ArticleDataModel(article.getId(), article.getTitle(), document.text()));
             }
         } else {
