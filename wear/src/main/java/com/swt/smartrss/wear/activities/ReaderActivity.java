@@ -15,6 +15,7 @@ import com.swt.smartrss.wear.R;
 public class ReaderActivity extends Activity {
     public final static String TEXT = "com.swt.smartrss.wear.activities.TEXT";
     public final static String WPM = "com.swt.smartrss.wear.activities.WPM";
+    public final static String ID = "com.swt.smartrss.wear.activities.ID";
 
     private TextView mTextView;
     private Button mButton;

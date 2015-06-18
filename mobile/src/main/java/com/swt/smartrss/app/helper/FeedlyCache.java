@@ -28,6 +28,14 @@ public class FeedlyCache {
         this.mArticles = new ArrayList<Article>();
     }
 
+    public Article getArticleById(String id) {
+        for (Article article : mArticles) {
+            if (article.getId().equals(id))
+                return article;
+        }
+        return null;
+    }
+
     //TODO implement removeListener
     public void addListener(FeedlyEventInterface listener) {
         mListeners.add(listener);

@@ -48,7 +48,7 @@ public class SpritzSectionsScrollView extends ScrollView {
      * @param width  width of the display
      * @param height height of the display
      */
-    public void setFeatureItems(ArrayList pItems, int width, int height) {
+    public void setFeatureItems(ArrayList pItems, int width, int height, LinearLayout extraLayout) {
 
         this.mItems = pItems;
 
@@ -64,14 +64,11 @@ public class SpritzSectionsScrollView extends ScrollView {
          * Inlfating layouts and setting up sizes
          */
         LinearLayout spritzLayout = (LinearLayout) View.inflate(this.getContext(), R.layout.spritz_layout, null);
-        LinearLayout spritzExtrasLayout = (LinearLayout) View.inflate(this.getContext(), R.layout.spritz_extras_layout, null);
-
         spritzLayout.setMinimumWidth(width);
         spritzLayout.setMinimumHeight(height);
-        spritzExtrasLayout.setMinimumWidth(width);
-        spritzExtrasLayout.setMinimumHeight(height);
+
         internalWrapper.addView(spritzLayout);
-        internalWrapper.addView(spritzExtrasLayout);
+        internalWrapper.addView(extraLayout);
 
         /**
          * final spritzerTextview to send pause function on swipe

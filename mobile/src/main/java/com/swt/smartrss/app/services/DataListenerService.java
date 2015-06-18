@@ -1,11 +1,14 @@
 package com.swt.smartrss.app.services;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.*;
 import com.swt.smartrss.app.GlobalApplication;
+import com.swt.smartrss.app.activities.ReaderActivity;
+import com.swt.smartrss.app.helper.ArticleData;
 import com.swt.smartrss.app.helper.FeedlyCache;
 import com.swt.smartrss.app.helper.StateManager;
 import com.swt.smartrss.app.interfaces.FeedlyEventInterface;
@@ -43,6 +46,18 @@ public class DataListenerService extends WearableListenerService implements
                 ArticleRequestModel requestModel = (ArticleRequestModel) ObjectSerializer.deserialize(messageEvent.getData());
                 if (requestModel != null) {
                     Log.d(TAG, "requestModel " + requestModel.id);
+
+                    Article reqArticle = feedlyCache.getArticleById(requestModel.id);
+                    if (reqArticle != null) {
+                        ArticleData articleData = new ArticleData(reqArticle);
+
+                        Intent intent = new Intent(this, ReaderActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("title", articleData.getTitle());
+                        intent.putExtra("text", articleData.getText());
+                        intent.putExtra("picUrl", articleData.getPictureUrl());
+                        startActivity(intent);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

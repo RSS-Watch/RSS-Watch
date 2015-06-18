@@ -10,28 +10,26 @@
               tools:deviceIds="wear_square"
               android:id="@+id/spritzExtrasLinearLO" android:background="@color/dark_blue">
 
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
-        <!-- Button1 -->
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true">
         <Button android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Auf Telefon öffnen"
-                android:id="@+id/buttons1"
-                android:layout_centerHorizontal="true"
-                android:layout_above="@+id/buttons2"/>
-        <!-- Button2 -->
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text2"
-                android:id="@+id/buttons2"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
-        <!-- Button3 -->
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text3"
-                android:id="@+id/buttons3"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/buttons2"/>
+                android:text="@string/btn_open_on_phone"
+                android:id="@+id/btnOpenArticle"
+                android:gravity="center_vertical" android:layout_centerInParent="true"/>
+        <!--        <Button android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text2"
+                        android:id="@+id/buttons2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+                <Button android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text3"
+                        android:id="@+id/buttons3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/buttons2"/>-->
 
     </RelativeLayout>
 

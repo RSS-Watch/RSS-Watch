@@ -3,6 +3,8 @@ package com.swt.smartrss.wear.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
@@ -26,6 +28,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
     public final static String WPM = "com.swt.smartrss.wear.activities.WPM";
     public final static String ID = "com.swt.smartrss.wear.activities.ID";
     private static final String TAG = MainActivity.class.getName();
+    private static final int SPRITZER_REQUEST_READER = 1;
     private ListAdapter mListAdapter;
     private WearableListView mlistView;
 
@@ -61,8 +64,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                         intent.putExtra(ID, articleDataModel.id);
                         intent.putExtra(TEXT, articleDataModel.text);
                         intent.putExtra(WPM, 300);
-                        startActivity(intent);
-                        //openArticle(articleDataModel.id);
+                        startActivityForResult(intent, SPRITZER_REQUEST_READER);
                     }
 
                     @Override
@@ -73,6 +75,25 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                 mlistView.setAdapter(mListAdapter);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("onActivityResult", Integer.toString(requestCode));
+        if (requestCode == SPRITZER_REQUEST_READER) {
+            if (resultCode == RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                final String articleId = bundle.getString("id");
+                Handler handler = new Handler(Looper.getMainLooper());
+                final Runnable runnable = new Runnable() {
+                    public void run() {
+                        Log.d(TAG, "runnable");
+                        openArticle(articleId);
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+            }
+        }
     }
 
     //region Communication
