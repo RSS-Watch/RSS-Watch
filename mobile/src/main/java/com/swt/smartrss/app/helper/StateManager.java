@@ -8,10 +8,16 @@ import android.content.Context;
 public class StateManager {
     private Context mContext;
     private AndroidPreferences androidPreferences;
+    private FeedlyCache feedlyCache;
 
     public StateManager(Context context) {
         this.mContext = context;
         androidPreferences = new AndroidPreferences(mContext);
+        feedlyCache = new FeedlyCache(mContext);
+    }
+
+    public FeedlyCache getFeedlyCache() {
+        return feedlyCache;
     }
 
     public AndroidPreferences getAndroidPreferences() {

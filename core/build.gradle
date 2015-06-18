@@ -1,27 +1,24 @@
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.1.1'
     }
 }
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 repositories {
-    mavenCentral()
     jcenter()
 }
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "21.0.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.swt.smartrss"
-        minSdkVersion 18
-        targetSdkVersion 18
+        minSdkVersion 8
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -40,11 +37,4 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'org.jsoup:jsoup:1.6.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.curioustechizen.android-ago:library:1.3.0'
-    compile 'com.google.android.gms:play-services-wearable:+'
-    compile project(':core')
-    wearApp project(':wear')
-    /*compile 'com.github.RSS-Watch:Feedly-API-Client:0.1.1'*/
 }
