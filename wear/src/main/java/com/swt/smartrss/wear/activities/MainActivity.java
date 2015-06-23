@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        mListAdapter = new ListAdapter(getApplicationContext(), new ArrayList<ArticleDataModel>());
+        mListAdapter = new ListAdapter(this, new ArrayList<ArticleDataModel>());
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
@@ -100,7 +100,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
     }
 
     //region Communication
-    private void sendMessage(String path, byte[] data) {
+    public void sendMessage(String path, byte[] data) {
         if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), path, data).setResultCallback(

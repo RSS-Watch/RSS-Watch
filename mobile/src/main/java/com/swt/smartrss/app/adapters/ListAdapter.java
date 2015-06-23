@@ -9,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.squareup.picasso.Picasso;
+import com.swt.smartrss.app.EndlessArticlesTask;
+import com.swt.smartrss.app.GlobalApplication;
 import com.swt.smartrss.app.R;
 import com.swt.smartrss.app.helper.ArticleData;
 import com.swt.smartrss.app.helper.DpPixelConverter;
+import com.swt.smartrss.app.helper.FeedlyCache;
 
 import java.util.ArrayList;
 
@@ -20,7 +23,6 @@ import java.util.ArrayList;
  */
 public class ListAdapter extends ArrayAdapter<ArticleData> {
     private Context context;
-    private ArrayList<ArticleData> values;
 
     public ListAdapter(Context context, int layout, ArrayList<ArticleData> values) {
         super(context, layout, values);
@@ -55,6 +57,12 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
 
         RelativeTimeTextView v = (RelativeTimeTextView) convertView.findViewById(R.id.timestamp);
         v.setReferenceTime(a.getPublished().getTime().getTime());
+
+        FeedlyCache feedlyCache = ((GlobalApplication)context.getApplicationContext()).getStateManager().getFeedlyCache();
+
+        if(position == getCount() - 1) {
+            new EndlessArticlesTask(feedlyCache).execute();
+        }
 
         return convertView;
     }

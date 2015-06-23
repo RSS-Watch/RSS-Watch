@@ -78,6 +78,9 @@ public class DataListenerService extends WearableListenerService implements
                 e.printStackTrace();
             }
         }
+        else if (messageEvent.getPath().equals(Shared.URI_REQUEST_ARTICLE_UPDATE)) {
+            feedlyCache.refreshArticles(true);
+        }
     }
 
     @Override
@@ -149,7 +152,7 @@ public class DataListenerService extends WearableListenerService implements
         } else {
             articleDataModel.add(new ArticleDataModel("", "loading", "", true));
             //TODO implement error handling
-            feedlyCache.getNewArticles();
+            feedlyCache.refreshArticles();
         }
         syncItemMessage(Shared.URI_ARTICLE, articleDataModel);
     }
