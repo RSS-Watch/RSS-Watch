@@ -16,6 +16,7 @@ import com.swt.smartrss.core.Shared;
 import com.swt.smartrss.core.helper.ObjectSerializer;
 import com.swt.smartrss.core.models.ArticleDataModel;
 import com.swt.smartrss.core.models.ArticleRequestModel;
+import com.swt.smartrss.core.models.ConfigurationModel;
 import com.swt.smartrss.wear.R;
 import com.swt.smartrss.wear.adapters.ListAdapter;
 
@@ -31,6 +32,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
     private static final int SPRITZER_REQUEST_READER = 1;
     private ListAdapter mListAdapter;
     private WearableListView mlistView;
+    private int mSpritzerWPM = 100;
 
 
     //communication
@@ -63,7 +65,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                         Intent intent = new Intent(getApplicationContext(), SpritzerActivity.class);
                         intent.putExtra(ID, articleDataModel.id);
                         intent.putExtra(TEXT, articleDataModel.text);
-                        intent.putExtra(WPM, 300);
+                        intent.putExtra(WPM, mSpritzerWPM);
                         startActivityForResult(intent, SPRITZER_REQUEST_READER);
                     }
 
@@ -182,6 +184,9 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                 if (item.getUri().getPath().compareTo(Shared.URI_ARTICLE) == 0) {
                     DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                     processRawArticle(dataMap.getByteArray(Shared.KEY_DATA));
+                } else if (item.getUri().getPath().compareTo(Shared.URI_SYNC_CONFIG) == 0) {
+                    DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
+                    processRawConfig(dataMap.getByteArray(Shared.KEY_DATA));
                 }
             }
         }
@@ -200,6 +205,18 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                     mListAdapter.notifyDataSetChanged();
                 }
             });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void processRawConfig(byte[] data) {
+        try {
+            Log.d(TAG, "processRawConfig");
+            ConfigurationModel configurationModel = (ConfigurationModel) ObjectSerializer.deserialize(data);
+            mSpritzerWPM = configurationModel.wpm;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

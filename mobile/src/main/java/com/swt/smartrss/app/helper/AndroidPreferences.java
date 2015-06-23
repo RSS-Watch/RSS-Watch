@@ -9,6 +9,7 @@ import com.swt.smartrss.app.R;
  * Created by Dropsoft on 01.06.2015.
  */
 public class AndroidPreferences {
+    private static String keyPrefsSpritzWPM;
     private static String keyPrefsAccountString;
     private static String keyPrefsFeedlyToken;
 
@@ -18,8 +19,13 @@ public class AndroidPreferences {
     public AndroidPreferences(Context context) {
         keyPrefsAccountString = context.getString(R.string.preference_edit_account);
         keyPrefsFeedlyToken = context.getString(R.string.preference_edit_token);
+        keyPrefsSpritzWPM = context.getString(R.string.preference_list_speed);
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.prefsEditor = sharedPreferences.edit();
+    }
+
+    public Integer getSpritzWPM() {
+        return Integer.valueOf(sharedPreferences.getString(keyPrefsSpritzWPM, "100"));
     }
 
     public String getAccountName() {

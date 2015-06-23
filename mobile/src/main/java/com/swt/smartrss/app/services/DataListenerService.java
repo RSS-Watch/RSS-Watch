@@ -16,6 +16,7 @@ import com.swt.smartrss.core.Shared;
 import com.swt.smartrss.core.helper.ObjectSerializer;
 import com.swt.smartrss.core.models.ArticleDataModel;
 import com.swt.smartrss.core.models.ArticleRequestModel;
+import com.swt.smartrss.core.models.ConfigurationModel;
 import org.feedlyapi.model.Article;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +33,6 @@ public class DataListenerService extends WearableListenerService implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = DataListenerService.class.getName();
-
     private GoogleApiClient mGoogleApiClient;
     private FeedlyCache feedlyCache;
 
@@ -40,6 +40,8 @@ public class DataListenerService extends WearableListenerService implements
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d(TAG, "onMessageReceived " + messageEvent.getPath());
         if (messageEvent.getPath().equals(Shared.URI_REQUEST_ARTICLE_LIST)) {
+            syncConfig();
+            //TODO implement listener for live update
             syncArticles();
         } else if (messageEvent.getPath().equals(Shared.URI_OPEN_ARTICLE)) {
             try {
@@ -95,6 +97,28 @@ public class DataListenerService extends WearableListenerService implements
         });
     }
 
+    private void syncItemMessage(String path, Object object) {
+        Log.d(TAG, "syncItemMessage " + path);
+        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
+        try {
+            DataMap dataMap = putDataMapRequest.getDataMap();
+            dataMap.putByteArray(Shared.KEY_DATA, ObjectSerializer.serialize(object));
+            dataMap.putLong(Shared.KEY_TIME, new Date().getTime());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+        Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
+    }
+
+    private void syncConfig() {
+        StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
+        Integer spritzWPM = stateManager.getAndroidPreferences().getSpritzWPM();
+        Log.d(TAG, "syncConfig " + spritzWPM);
+        ConfigurationModel configurationModel = new ConfigurationModel(spritzWPM);
+        syncItemMessage(Shared.URI_SYNC_CONFIG, configurationModel);
+    }
+
     private void syncArticles() {
         Log.d(TAG, "syncArticles");
         List<ArticleDataModel> articleDataModel = new ArrayList<ArticleDataModel>();
@@ -113,17 +137,7 @@ public class DataListenerService extends WearableListenerService implements
             //TODO implement error handling
             feedlyCache.getNewArticles();
         }
-
-        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(Shared.URI_ARTICLE);
-        try {
-            DataMap dataMap = putDataMapRequest.getDataMap();
-            dataMap.putByteArray(Shared.KEY_DATA, ObjectSerializer.serialize(articleDataModel));
-            dataMap.putLong(Shared.KEY_TIME, new Date().getTime());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
-        Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
+        syncItemMessage(Shared.URI_ARTICLE, articleDataModel);
     }
 
     @Override
