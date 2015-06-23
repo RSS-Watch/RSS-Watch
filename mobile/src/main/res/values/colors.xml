@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="titleColor" type="color">#ff00222a</item>
+    <item name="titleColorRead" type="color">#8a8a8a</item>
+</resources>
