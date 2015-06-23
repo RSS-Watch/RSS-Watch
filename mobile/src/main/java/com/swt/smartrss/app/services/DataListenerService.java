@@ -96,7 +96,7 @@ public class DataListenerService extends WearableListenerService implements
         } else {
             articleDataModel.add(new ArticleDataModel("", "loading", ""));
             //TODO implement error handling
-            feedlyCache.getNewArticles();
+            feedlyCache.refreshArticles();
         }
 
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(Shared.URI_ARTICLE);

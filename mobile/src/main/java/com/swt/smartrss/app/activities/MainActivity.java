@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,15 @@ public class MainActivity extends Activity {
             requestLogin();
             return;
         }
+
+        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                feedlyCache.refreshArticles();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -84,7 +94,7 @@ public class MainActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
-        feedlyCache.getNewArticles();
+        feedlyCache.refreshArticles();
         /*
         final String accessToken = stateManager.getAndroidPreferences().getFeedlyToken();
         FeedlyApiProvider.setAccessToken(accessToken);
@@ -120,7 +130,6 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
