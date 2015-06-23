@@ -50,6 +50,9 @@ public class DataListenerService extends WearableListenerService implements
                 e.printStackTrace();
             }
         }
+        else if (messageEvent.getPath().equals(Shared.URI_REQUEST_ARTICLE_UPDATE)) {
+            feedlyCache.refreshArticles(true);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ package com.swt.smartrss.core;
  */
 public class Shared {
     public static final String URI_REQUEST_ARTICLE_LIST = "/reqArticleList";
+    public static final String URI_REQUEST_ARTICLE_UPDATE = "/reqArticleUpdate";
     public static final String URI_REQUEST_ARTICLE_TEXT = "/reqArticleText";
     public static final String URI_OPEN_ARTICLE = "/openArticle";
     public static final String URI_ARTICLE = "/article";

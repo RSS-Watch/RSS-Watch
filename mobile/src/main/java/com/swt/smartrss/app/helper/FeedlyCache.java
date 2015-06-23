@@ -23,6 +23,7 @@ public class FeedlyCache {
     private String mAccessToken;
     private FeedManager mFeedManager;
     private List<Article> mArticles;
+    private List<Article> mContinuedArticles;
 
     private String streamContinuation;
 
@@ -30,6 +31,7 @@ public class FeedlyCache {
         this.mContext = context;
         this.mListeners = new ArrayList<FeedlyEventInterface>();
         this.mArticles = new ArrayList<Article>();
+        this.mContinuedArticles = new ArrayList<Article>();
         this.mFeedManager = new FeedManager(FeedlyApiProvider.getApi());
     }
 
@@ -67,9 +69,18 @@ public class FeedlyCache {
         return mArticles;
     }
 
+    public List<Article> getContinuedArticles() {
+        return mContinuedArticles;
+    }
+
     public void setArticles(List<Article> articles) {
         this.mArticles.clear();
         this.mArticles.addAll(articles);
+    }
+
+    public void setContinuedArticles(List<Article> articles) {
+        this.mContinuedArticles.clear();
+        this.mContinuedArticles.addAll(articles);
     }
 
     public void refreshArticles(boolean continueArticles) {
@@ -81,7 +92,9 @@ public class FeedlyCache {
                 @Override
                 public void success(Stream stream, Response response) {
                     streamContinuation = stream.getContinuation();
-                    addArticles(stream.getItems());
+                    List<Article> articlesInStream = stream.getItems();
+                    addArticles(articlesInStream);
+                    setContinuedArticles(articlesInStream);
                     triggerOnSuccess();
                 }
 

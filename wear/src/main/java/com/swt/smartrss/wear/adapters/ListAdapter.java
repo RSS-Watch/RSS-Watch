@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.swt.smartrss.core.Shared;
 import com.swt.smartrss.core.models.ArticleDataModel;
 import com.swt.smartrss.wear.R;
+import com.swt.smartrss.wear.activities.MainActivity;
 
 import java.util.List;
 
@@ -39,6 +41,11 @@ public class ListAdapter extends WearableListView.Adapter {
             view.setText(mDataset.get(position).title);
         }
         holder.itemView.setTag(position);
+
+
+        if(position == getItemCount() - 1) {
+            ((MainActivity) mContext).sendMessage(Shared.URI_REQUEST_ARTICLE_UPDATE, null);
+        }
     }
 
     public ArticleDataModel getItem(int index) {
