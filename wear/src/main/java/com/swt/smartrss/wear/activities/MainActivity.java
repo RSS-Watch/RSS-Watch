@@ -62,6 +62,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
                     public void onClick(WearableListView.ViewHolder viewHolder) {
                         Integer index = (Integer) viewHolder.itemView.getTag();
                         ArticleDataModel articleDataModel = mListAdapter.getItem(index);
+                        readArticle(articleDataModel.id);
                         Intent intent = new Intent(getApplicationContext(), SpritzerActivity.class);
                         intent.putExtra(ID, articleDataModel.id);
                         intent.putExtra(TEXT, articleDataModel.text);
@@ -114,6 +115,15 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
             );
         } else {
             Log.e(TAG, "Device is not connected");
+        }
+    }
+
+    private void readArticle(String articleID) {
+        ArticleRequestModel articleRequestModel = new ArticleRequestModel(articleID);
+        try {
+            sendMessage(Shared.URI_READ_ARTICLE, ObjectSerializer.serialize(articleRequestModel));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

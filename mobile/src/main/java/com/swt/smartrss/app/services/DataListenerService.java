@@ -39,7 +39,18 @@ public class DataListenerService extends WearableListenerService implements
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d(TAG, "onMessageReceived " + messageEvent.getPath());
-        if (messageEvent.getPath().equals(Shared.URI_REQUEST_ARTICLE_LIST)) {
+        if (messageEvent.getPath().equals(Shared.URI_READ_ARTICLE)) {
+            try {
+                ArticleRequestModel requestModel = (ArticleRequestModel) ObjectSerializer.deserialize(messageEvent.getData());
+                if (requestModel != null) {
+                    feedlyCache.markArticleAsRead(requestModel.id);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else if (messageEvent.getPath().equals(Shared.URI_REQUEST_ARTICLE_LIST)) {
             syncConfig();
             //TODO implement listener for live update
             syncArticles();
@@ -129,11 +140,14 @@ public class DataListenerService extends WearableListenerService implements
                 if (articleText == null)
                     articleText = article.getSummary();
 
+                if (articleText == null)
+                    articleText = "";
+
                 Document document = Jsoup.parse(articleText);
-                articleDataModel.add(new ArticleDataModel(article.getId(), article.getTitle(), document.text()));
+                articleDataModel.add(new ArticleDataModel(article.getId(), article.getTitle(), document.text(), article.isUnread()));
             }
         } else {
-            articleDataModel.add(new ArticleDataModel("", "loading", ""));
+            articleDataModel.add(new ArticleDataModel("", "loading", "", true));
             //TODO implement error handling
             feedlyCache.getNewArticles();
         }

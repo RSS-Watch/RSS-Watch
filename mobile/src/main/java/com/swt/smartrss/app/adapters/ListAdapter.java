@@ -43,6 +43,9 @@ public class ListAdapter extends ArrayAdapter<ArticleData> {
         ImageView ivThumb = (ImageView) convertView.findViewById(R.id.imageView);
 
         tvTitle.setText(a.getTitle());
+
+        tvTitle.setTextColor(context.getResources().getColor(a.isUnread() ? R.color.titleColor : R.color.titleColorRead));
+        if (a.isUnread())
         if (a.getSource() != null && a.getSource() != "")
             tvSource.setText("- " + a.getSource());
         if (a.getPictureUrl() != "" && a.getPictureUrl() != null) {

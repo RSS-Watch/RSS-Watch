@@ -12,12 +12,14 @@ import java.util.GregorianCalendar;
  * Created by Florian on 09.06.2015.
  */
 public class ArticleData {
+    private String id;
     private String title;
     private String text;
     private Calendar published;
     private String pictureUrl;
     private String source;
     private String url;
+    private boolean unread;
 
     public ArticleData() {
         title = "";
@@ -25,9 +27,12 @@ public class ArticleData {
         published = new GregorianCalendar();
         pictureUrl = "";
         source = "";
+        unread = false;
     }
 
     public ArticleData(Article a) {
+        this.id = a.getId();
+        this.unread = a.isUnread();
         this.title = a.getTitle();
         this.url = a.getOriginId();
         this.source = formatSource(a.getOriginId());
@@ -39,11 +44,22 @@ public class ArticleData {
         this.pictureUrl = this.extractPictureUrl();
     }
 
+    public boolean isUnread() {
+        return unread;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     private String extractPictureUrl() {
-        Document doc = Jsoup.parse(text);
-        Elements imgUrl = doc.select("img");
-        String test = imgUrl.attr("src");
-        return test;
+        if (text != null) {
+            Document doc = Jsoup.parse(text);
+            Elements imgUrl = doc.select("img");
+            String test = imgUrl.attr("src");
+            return test;
+        } else
+            return "";
     }
 
     private String formatSource(String src) {

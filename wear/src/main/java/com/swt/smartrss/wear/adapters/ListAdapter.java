@@ -37,6 +37,8 @@ public class ListAdapter extends WearableListView.Adapter {
         ArticleDataModel articleDataModel = mDataset.get(position);
         if (articleDataModel != null) {
             view.setText(mDataset.get(position).title);
+            view.setTextColor(mContext.getResources().getColor(articleDataModel.unread ? R.color.titleColor : R.color.titleColorRead));
+
         }
         holder.itemView.setTag(position);
     }

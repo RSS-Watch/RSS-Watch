@@ -6,12 +6,14 @@ import com.swt.smartrss.app.interfaces.FeedlyEventInterface;
 import org.feedlyapi.FeedManager;
 import org.feedlyapi.model.Article;
 import org.feedlyapi.model.Stream;
+import org.feedlyapi.model.requests.MarkArticlesAsReadRequest;
 import org.feedlyapi.retrofit.FeedlyApiProvider;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +28,28 @@ public class FeedlyCache {
         this.mContext = context;
         this.mListeners = new ArrayList<FeedlyEventInterface>();
         this.mArticles = new ArrayList<Article>();
+    }
+
+    public void markArticleAsRead(String id) {
+        final Article article = getArticleById(id);
+        if (article != null) {
+            StateManager stateManager = ((GlobalApplication) mContext).getStateManager();
+            String accessToken = stateManager.getAndroidPreferences().getFeedlyToken();
+            FeedlyApiProvider.setAccessToken(accessToken);
+
+            FeedlyApiProvider.getApi().markArticlesAsReadAsync(new MarkArticlesAsReadRequest(Arrays.asList(article.getId())), new Callback<Response>() {
+                @Override
+                public void success(Response response, Response response2) {
+                    article.setUnread(false);
+                    triggerOnSuccess();
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+                    //TODO handle callback
+                }
+            });
+        }
     }
 
     public Article getArticleById(String id) {

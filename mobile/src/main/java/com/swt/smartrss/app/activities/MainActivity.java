@@ -54,8 +54,10 @@ public class MainActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getApplicationContext(), ReaderActivity.class);
                 ArticleData current = adapter.getItem(position);
+                feedlyCache.markArticleAsRead(current.getId());
+
+                Intent i = new Intent(getApplicationContext(), ReaderActivity.class);
                 i.putExtra("title", current.getTitle());
                 i.putExtra("url", current.getUrl());
                 i.putExtra("text", current.getText());
