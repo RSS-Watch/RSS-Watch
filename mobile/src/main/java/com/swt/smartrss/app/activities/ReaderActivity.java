@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.swt.smartrss.app.R;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class ReaderActivity extends Activity {
 
@@ -47,20 +47,12 @@ public class ReaderActivity extends Activity {
         text = i.getStringExtra("text");
         String picUrl = i.getStringExtra("picUrl");
 
-
-        //This codeblock removes all pictures from the html code
-        Pattern removePictures = Pattern.compile("\\<img.*?\\>");
-        Matcher matcher = removePictures.matcher(text);
-        while (matcher.find()) {
-            text = text.replaceAll(matcher.group(), "");
+        Document doc = Jsoup.parse(text);
+        for (Element element : doc.select("img,iframe")) {
+            element.remove();
         }
 
-        //This codeblock removes every iframe from the html code
-        Pattern removeIframe = Pattern.compile("\\<iframe.*?\\</iframe>");
-        Matcher iframeMatcher = removeIframe.matcher(text);
-        while (iframeMatcher.find()) {
-            text = text.replaceAll(iframeMatcher.group(), "");
-        }
+        text = doc.html().toString();
 
         textViewTitle.setText(title);
         webView.loadDataWithBaseURL("", text, "text/html", "UTF-8", "");
