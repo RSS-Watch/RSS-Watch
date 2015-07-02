@@ -15,7 +15,6 @@ import java.util.ArrayList;
 /**
  * Class SpritzSectionsScrollView creates a ScrollView to seperate the Spritz text view and extras buttons
  * Created by Andrej on 09.06.2015.
- * TODO REMOVE UNUSED METHODS!
  */
 public class SpritzSectionsScrollView extends ScrollView {
     /**
