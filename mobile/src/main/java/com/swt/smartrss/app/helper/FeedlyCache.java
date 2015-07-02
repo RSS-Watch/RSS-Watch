@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Dropsoft on 17.06.2015.
+ * Class to handle feedly articles
  */
 public class FeedlyCache {
     private ArrayList<FeedlyEventInterface> mListeners;
@@ -101,13 +101,13 @@ public class FeedlyCache {
         return mArticles;
     }
 
-    public List<Article> getContinuedArticles() {
-        return mContinuedArticles;
-    }
-
     public void setArticles(List<Article> articles) {
         this.mArticles.clear();
         this.mArticles.addAll(articles);
+    }
+
+    public List<Article> getContinuedArticles() {
+        return mContinuedArticles;
     }
 
     public void setContinuedArticles(List<Article> articles) {

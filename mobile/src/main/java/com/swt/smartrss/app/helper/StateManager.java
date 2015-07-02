@@ -3,6 +3,7 @@ package com.swt.smartrss.app.helper;
 import android.content.Context;
 
 /**
+ * A class that is globally accessible over application context
  * Created by Dropsoft on 01.06.2015.
  */
 public class StateManager {

@@ -27,7 +27,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Dropsoft on 17.06.2015.
+ * This class receives events from other nodes, such as data changes, messages or connectivity events
+ *
+ * This service will be bound to and events delivered as a result of changes through the DataApi, MessageApi as well
+ * as events indicating a device has connected or disconnected from the Android Wear network.
  */
 public class DataListenerService extends WearableListenerService implements
         GoogleApiClient.ConnectionCallbacks,
@@ -39,6 +42,7 @@ public class DataListenerService extends WearableListenerService implements
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d(TAG, "onMessageReceived " + messageEvent.getPath());
+        //handle data by uri type
         if (messageEvent.getPath().equals(Shared.URI_READ_ARTICLE)) {
             try {
                 ArticleRequestModel requestModel = (ArticleRequestModel) ObjectSerializer.deserialize(messageEvent.getData());
@@ -64,6 +68,7 @@ public class DataListenerService extends WearableListenerService implements
                     if (reqArticle != null) {
                         ArticleData articleData = new ArticleData(reqArticle);
 
+                        //start reader activity
                         Intent intent = new Intent(this, ReaderActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("title", articleData.getTitle());
@@ -86,6 +91,7 @@ public class DataListenerService extends WearableListenerService implements
     @Override
     public void onCreate() {
         super.onCreate();
+        //start a connection
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Wearable.API)
@@ -159,6 +165,7 @@ public class DataListenerService extends WearableListenerService implements
 
     @Override
     public void onDestroy() {
+        //close connection
         if (null != mGoogleApiClient) {
             if (mGoogleApiClient.isConnected()) {
                 mGoogleApiClient.disconnect();

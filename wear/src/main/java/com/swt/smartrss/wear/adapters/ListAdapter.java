@@ -14,7 +14,7 @@ import com.swt.smartrss.wear.activities.MainActivity;
 import java.util.List;
 
 /**
- * Created by Florian on 19.05.2015.
+ * Class for adapters providing data for the WearableListView
  */
 public class ListAdapter extends WearableListView.Adapter {
     private List<ArticleDataModel> mDataset;

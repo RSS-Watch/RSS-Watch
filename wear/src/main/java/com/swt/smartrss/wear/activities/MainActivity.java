@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is the first activity you see when opening the app.
+ * Currently it shows a list of the newest articles on feedly.
+ */
 public class MainActivity extends Activity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public final static String TEXT = "com.swt.smartrss.wear.activities.TEXT";
     public final static String WPM = "com.swt.smartrss.wear.activities.WPM";
@@ -34,12 +38,16 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
     private WearableListView mlistView;
     private int mSpritzerWPM = 100;
 
-
     //communication
     private Node mNode;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolveError = false;
 
+    /**
+     * This method gets called when the activity is created.
+     *
+     * @param savedInstanceState gets passed to the super function
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +65,11 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mlistView = (WearableListView) findViewById(R.id.list);
+                //handling click events on the ListView items
                 mlistView.setClickListener(new WearableListView.ClickListener() {
                     @Override
                     public void onClick(WearableListView.ViewHolder viewHolder) {
+                        //open spritz view
                         Integer index = (Integer) viewHolder.itemView.getTag();
                         ArticleDataModel articleDataModel = mListAdapter.getItem(index);
                         readArticle(articleDataModel.id);
@@ -80,6 +90,9 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
         });
     }
 
+    /**
+     * This method gets called when the activity which is started over startActivityForResult finish
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("onActivityResult", Integer.toString(requestCode));
@@ -100,6 +113,13 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
     }
 
     //region Communication
+
+    /**
+     * Send message to handheld device
+     *
+     * @param path as URI
+     * @param data
+     */
     public void sendMessage(String path, byte[] data) {
         if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
@@ -165,6 +185,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
     @Override
     public void onConnected(Bundle bundle) {
         Wearable.DataApi.addListener(mGoogleApiClient, this);
+        //gets a list of nodes to which this device is currently connected, either directly or indirectly via a directly connected node
         Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
             @Override
             public void onResult(NodeApi.GetConnectedNodesResult nodes) {
@@ -191,6 +212,7 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
         for (DataEvent dataEvent : dataEventBuffer) {
             if (dataEvent.getType() == DataEvent.TYPE_CHANGED) {
                 DataItem item = dataEvent.getDataItem();
+                //handle changed URIs
                 if (item.getUri().getPath().compareTo(Shared.URI_ARTICLE) == 0) {
                     DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                     processRawArticle(dataMap.getByteArray(Shared.KEY_DATA));
@@ -202,6 +224,9 @@ public class MainActivity extends Activity implements DataApi.DataListener, Goog
         }
     }
 
+    /**
+     * Process byte array to handle article data
+     */
     private void processRawArticle(byte[] data) {
         try {
             Log.d(TAG, "processRawArticle");

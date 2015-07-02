@@ -27,7 +27,7 @@ import java.util.List;
  * This class is the first activity you see when opening the app.
  * Currently it shows a list of the newest articles on feedly.
  *
- * @author Florian Lüdiger
+ * @author Florian Lï¿½diger
  * @author Oleg Kriegel
  */
 public class MainActivity extends Activity {
@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //get feedly token otherwise request login
         StateManager stateManager = ((GlobalApplication) getApplication()).getStateManager();
         feedlyCache = stateManager.getFeedlyCache();
         final String token = stateManager.getAndroidPreferences().getFeedlyToken();
@@ -114,6 +115,7 @@ public class MainActivity extends Activity {
     }
 
     private void requestLogin() {
+        //start webbrowser with feedly login url
         Uri uri = Uri.parse("http://sandbox.feedly.com/v3/auth/auth?response_type=code&client_id=sandbox&redirect_uri=http://localhost&scope=https://cloud.feedly.com/subscriptions");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);

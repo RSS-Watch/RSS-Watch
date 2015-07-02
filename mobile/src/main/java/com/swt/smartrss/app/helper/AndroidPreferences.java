@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.swt.smartrss.app.R;
 
 /**
+ * Class used for modifying values in a SharedPreferences object
  * Created by Dropsoft on 01.06.2015.
  */
 public class AndroidPreferences {
@@ -17,9 +18,11 @@ public class AndroidPreferences {
     private SharedPreferences.Editor prefsEditor;
 
     public AndroidPreferences(Context context) {
+        //get resource strings
         keyPrefsAccountString = context.getString(R.string.preference_edit_account);
         keyPrefsFeedlyToken = context.getString(R.string.preference_edit_token);
         keyPrefsSpritzWPM = context.getString(R.string.preference_list_speed);
+        //gets a SharedPreferences instance that points to the default file that is used by the preference framework in the given context
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.prefsEditor = sharedPreferences.edit();
     }
