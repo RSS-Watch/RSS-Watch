@@ -15,20 +15,34 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+/**
+ * This activity shows a detailed view of an article.
+ * It shows up when clicking on an article in the MainActivity.
+ *
+ * @author Florian Lüdiger
+ * @author Oleg Kriegel
+ */
 public class ReaderActivity extends Activity {
-
+    //the data of the selected article
     private String title;
     private String text;
     private String url;
 
+    /**
+     * This method gets called when the activity is created.
+     * @param savedInstanceState gets passed to the super function
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
+
+        //referencing the objects from the resource files
         TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         ImageView imageViewTop = (ImageView) findViewById(R.id.imageViewTop);
-
         WebView webView = (WebView) findViewById(R.id.webView);
+
+        //passes clicked links to the WebViewActivity and starts it
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -38,15 +52,20 @@ public class ReaderActivity extends Activity {
                 return true;
             }
         });
+
+        //prevents the WebView from being zoomed
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
 
+        //gets the passed parameters from the calling activity
         Intent i = getIntent();
         title = i.getStringExtra("title");
         url = i.getStringExtra("url");
         text = i.getStringExtra("text");
         String picUrl = i.getStringExtra("picUrl");
 
+        //deletes all images and iframes from the html code
+        //this is nessecary for correct scaling of the text
         Document doc = Jsoup.parse(text);
         for (Element element : doc.select("img,iframe")) {
             element.remove();
@@ -58,6 +77,7 @@ public class ReaderActivity extends Activity {
         webView.loadDataWithBaseURL("", text, "text/html", "UTF-8", "");
         webView.setScrollContainer(false);
 
+        //if no picture url is specified a red X is shown
         if (picUrl != "" && picUrl != null) {
             Picasso.with(getApplicationContext()).load(picUrl)
                     .error(android.R.drawable.ic_delete).into(imageViewTop);
@@ -88,6 +108,9 @@ public class ReaderActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method is used to share the title and the url of the currently displayed article.
+     */
     private void shareArticle() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);

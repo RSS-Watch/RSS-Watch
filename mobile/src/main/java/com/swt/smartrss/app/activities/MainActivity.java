@@ -23,11 +23,21 @@ import org.feedlyapi.retrofit.FeedlyApiProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class is the first activity you see when opening the app.
+ * Currently it shows a list of the newest articles on feedly.
+ *
+ * @author Florian Lüdiger
+ * @author Oleg Kriegel
+ */
 public class MainActivity extends Activity {
     private String accountName;
     private FeedlyCache feedlyCache;
 
+    /**
+     * This method gets called when the activity is created.
+     * @param savedInstanceState gets passed to the super function
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +63,7 @@ public class MainActivity extends Activity {
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
+        //putting a dummy ArticleData object in the list saying "loading"
         final ArrayList<ArticleData> list = new ArrayList<ArticleData>();
         ArticleData loadingDummy = new ArticleData();
         loadingDummy.setTitle("loading");
@@ -61,6 +72,7 @@ public class MainActivity extends Activity {
         final ListAdapter adapter = new ListAdapter(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
 
+        //handling click events on the ListView items
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,6 +88,7 @@ public class MainActivity extends Activity {
             }
         });
 
+        //fetching articles using the FeedlyCache Class from the Feedly API
         feedlyCache.addListener(new FeedlyEventInterface() {
             @Override
             public void success() {
@@ -87,6 +100,7 @@ public class MainActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
 
+            //putting an error ArticleData dummy into the list
             @Override
             public void failure() {
                 list.clear();
@@ -97,34 +111,6 @@ public class MainActivity extends Activity {
             }
         });
         feedlyCache.refreshArticles();
-        /*
-        final String accessToken = stateManager.getAndroidPreferences().getFeedlyToken();
-        FeedlyApiProvider.setAccessToken(accessToken);
-        FeedManager feedManager = new FeedManager(FeedlyApiProvider.getApi());
-        feedManager.getLatestArticles(10, new Callback<Stream>() {
-            @Override
-            public void success(Stream stream, Response response) {
-                List<Article> articles = stream.getItems();
-                list.clear();
-                for (Article a : articles) {
-                    list.add(new ArticleData(a));
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                list.clear();
-                ArticleData errorDummy = new ArticleData();
-                errorDummy.setTitle("Error loading articles");
-                retrofitError.printStackTrace();
-                list.add(errorDummy);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        */
-
-
     }
 
     private void requestLogin() {

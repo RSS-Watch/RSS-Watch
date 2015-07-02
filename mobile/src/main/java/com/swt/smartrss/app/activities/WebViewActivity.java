@@ -7,7 +7,12 @@ import android.webkit.WebView;
 import com.swt.smartrss.app.R;
 
 /**
- * Created by Florian on 16.06.2015.
+ * This activity consists of only one WebView filling the whole screen.
+ * It shows up when clicking a link in the ReaderActivity.
+ * This helps improving the performance because opening links in this Activity is much faster than
+ * for example opening the default browser.
+ *
+ * @author Florian Lüdiger
  */
 public class WebViewActivity extends Activity {
     @Override

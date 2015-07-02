@@ -9,7 +9,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Created by Florian on 09.06.2015.
+ * This class is our own class holding the data of each article.
+ * It is very similar to the Article class from the Feedly API but provides additional functionality.
+ * We did not inherit the Article class to reduce overhead.
+ *
+ * @author Florian Lüdiger
  */
 public class ArticleData {
     private String id;
@@ -21,6 +25,9 @@ public class ArticleData {
     private String url;
     private boolean unread;
 
+    /**
+     * The default constructor just fills the fields with empty strings.
+     */
     public ArticleData() {
         title = "";
         text = "";
@@ -30,12 +37,18 @@ public class ArticleData {
         unread = false;
     }
 
+    /**
+     * This constructor converts an Article object into an ArticleData object
+     * @param a The Article object containing the relevant data
+     */
     public ArticleData(Article a) {
         this.id = a.getId();
         this.unread = a.isUnread();
         this.title = a.getTitle();
         this.url = a.getOriginId();
         this.source = formatSource(a.getOriginId());
+        // Some feeds have an empty content field but a summary.
+        // We want to display at least the summary if no content is available.
         if (a.getContent() != null && !a.getContent().isEmpty())
             this.text = a.getContent();
         else
@@ -52,6 +65,10 @@ public class ArticleData {
         return id;
     }
 
+    /**
+     * This method extracts the url of the first image in the text of the feed.
+     * @return the image url of the first picture
+     */
     private String extractPictureUrl() {
         if (text != null) {
             Document doc = Jsoup.parse(text);
@@ -62,6 +79,12 @@ public class ArticleData {
             return "";
     }
 
+    /**
+     * This method removes all the unnessecary text in the source url.
+     * This ensures a clean looking source field in the ListView.
+     * @param src The source url with all the junk
+     * @return Only the domain of the source without all the junk
+     */
     private String formatSource(String src) {
         //remove http://www. from the url
         if (src.startsWith("http://www."))
@@ -77,6 +100,8 @@ public class ArticleData {
 
         return src;
     }
+
+    //Getters and setters following.
 
     public Calendar getPublished() {
         return published;
