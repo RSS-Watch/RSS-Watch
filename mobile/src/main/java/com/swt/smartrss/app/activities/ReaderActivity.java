@@ -14,6 +14,7 @@ import com.swt.smartrss.app.R;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * This activity shows a detailed view of an article.
@@ -36,6 +37,8 @@ public class ReaderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
+
+        this.getWindow().getDecorView().setBackgroundColor(0xFFF5F5F5);
 
         //referencing the objects from the resource files
         TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
@@ -70,6 +73,11 @@ public class ReaderActivity extends Activity {
         for (Element element : doc.select("img,iframe")) {
             element.remove();
         }
+
+        Element e = doc.body();
+        e.attr("style","background-color: #F5F5F5");
+
+
 
         text = doc.html().toString();
 

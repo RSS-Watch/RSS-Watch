@@ -51,7 +51,7 @@ public class RedirectActivity extends Activity {
 
         final FeedlyInterface api = getApi();
 
-        api.getAccessTokenAsync(new TokenRequest(authCode, "sandbox", "A4143F56J75FGQY7TAJM", "http://localhost"), new Callback<TokenObject>() {
+        api.getAccessTokenAsync(new TokenRequest(authCode, "sandbox", "YNXZHOH3GPYO6DF7B43K", "http://localhost"), new Callback<TokenObject>() {
 
             @Override
             public void success(TokenObject token, Response response) {
